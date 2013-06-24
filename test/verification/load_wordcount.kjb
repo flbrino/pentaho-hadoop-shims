@@ -11,6 +11,46 @@
   <modified_user>-</modified_user>
   <modified_date>2013&#x2f;06&#x2f;19 11&#x3a;08&#x3a;10.295</modified_date>
     <parameters>
+        <parameter>
+            <name>hadoop.hostname</name>
+            <default_value/>
+            <description/>
+        </parameter>
+        <parameter>
+            <name>hadoop.port</name>
+            <default_value>8020</default_value>
+            <description/>
+        </parameter>
+        <parameter>
+            <name>hive.database</name>
+            <default_value>default</default_value>
+            <description/>
+        </parameter>
+        <parameter>
+            <name>hive.hostname</name>
+            <default_value>&#x24;&#x7b;hadoop.hostname&#x7d;</default_value>
+            <description/>
+        </parameter>
+        <parameter>
+            <name>hive.port</name>
+            <default_value>10000</default_value>
+            <description/>
+        </parameter>
+        <parameter>
+            <name>hive.version</name>
+            <default_value>2</default_value>
+            <description/>
+        </parameter>
+        <parameter>
+            <name>zookeeper.hostname</name>
+            <default_value>&#x24;&#x7b;hadoop.hostname&#x7d;</default_value>
+            <description/>
+        </parameter>
+        <parameter>
+            <name>zookeeper.port</name>
+            <default_value>2181</default_value>
+            <description/>
+        </parameter>
     </parameters>
   <connection>
     <name>Hive</name>
