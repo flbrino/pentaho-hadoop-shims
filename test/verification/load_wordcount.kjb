@@ -146,6 +146,11 @@
           <destination_filefolder>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi&#x2f;weblogs&#x2f;raw</destination_filefolder>
           <wildcard/>
         </field>
+        <field>
+          <source_filefolder>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;</source_filefolder>
+          <destination_filefolder>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount&#x2f;input</destination_filefolder>
+          <wildcard>pg.&#x2a;&#x5c;.txt</wildcard>
+        </field>
       </fields>
       <parallel>N</parallel>
       <draw>Y</draw>
