@@ -155,8 +155,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>47</xloc>
-      <yloc>135</yloc>
+      <xloc>45</xloc>
+      <yloc>136</yloc>
       </entry>
     <entry>
       <name>START</name>
@@ -185,7 +185,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>575</xloc>
+      <xloc>570</xloc>
       <yloc>245</yloc>
       </entry>
     <entry>
@@ -201,7 +201,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>167</xloc>
+      <xloc>162</xloc>
       <yloc>212</yloc>
       </entry>
     <entry>
@@ -279,7 +279,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>821</xloc>
+      <xloc>814</xloc>
       <yloc>41</yloc>
       </entry>
     <entry>
@@ -297,8 +297,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>820</xloc>
-      <yloc>135</yloc>
+      <xloc>973</xloc>
+      <yloc>41</yloc>
       </entry>
     <entry>
       <name>Create &#x2f;wordcount</name>
@@ -309,8 +309,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>685</xloc>
-      <yloc>135</yloc>
+      <xloc>970</xloc>
+      <yloc>136</yloc>
       </entry>
     <entry>
       <name>Create &#x2f;wordcount&#x2f;input</name>
@@ -321,8 +321,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>552</xloc>
-      <yloc>135</yloc>
+      <xloc>837</xloc>
+      <yloc>136</yloc>
       </entry>
     <entry>
       <name>Delete &#x2f;wordcount-hdfs-output</name>
@@ -339,8 +339,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>380</xloc>
-      <yloc>135</yloc>
+      <xloc>367</xloc>
+      <yloc>136</yloc>
       </entry>
     <entry>
       <name>Create &#x2f;wordcount-hdfs-output</name>
@@ -351,8 +351,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>191</xloc>
-      <yloc>135</yloc>
+      <xloc>184</xloc>
+      <yloc>136</yloc>
       </entry>
     <entry>
       <name>HbaseInit</name>
@@ -390,7 +390,7 @@
             </parameter>      </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>293</xloc>
+      <xloc>288</xloc>
       <yloc>244</yloc>
       </entry>
     <entry>
@@ -423,7 +423,7 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>387</xloc>
+      <xloc>382</xloc>
       <yloc>244</yloc>
       </entry>
     <entry>
@@ -456,7 +456,7 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>481</xloc>
+      <xloc>476</xloc>
       <yloc>244</yloc>
       </entry>
     <entry>
@@ -478,7 +478,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>46</xloc>
+      <xloc>41</xloc>
       <yloc>244</yloc>
       </entry>
     <entry>
@@ -494,8 +494,59 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>165</xloc>
-      <yloc>299</yloc>
+      <xloc>161</xloc>
+      <yloc>293</yloc>
+      </entry>
+    <entry>
+      <name>Create &#x2f;wordcount&#x2f;output</name>
+      <description/>
+      <type>CREATE_FOLDER</type>
+      <foldername>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount&#x2f;output</foldername>
+      <fail_of_folder_exists>Y</fail_of_folder_exists>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>682</xloc>
+      <yloc>136</yloc>
+      </entry>
+    <entry>
+      <name>Set output permissions</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;HadoopSetPermissions.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+            <parameter>            <name>chmod.fullpath</name>
+            <stream_name/>
+            <value>&#x2f;wordcount&#x2f;output</value>
+            </parameter>            <parameter>            <name>chmod.permstring</name>
+            <stream_name/>
+            <value>777</value>
+            </parameter>      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>533</xloc>
+      <yloc>136</yloc>
       </entry>
   </entries>
   <hops>
@@ -538,15 +589,6 @@
     <hop>
       <from>Delete &#x2f;wordcount</from>
       <to>Create &#x2f;wordcount</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Create &#x2f;wordcount&#x2f;input</from>
-      <to>Delete &#x2f;wordcount-hdfs-output</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -673,6 +715,33 @@
     <hop>
       <from>Hive 1 Sql</from>
       <to>HbaseInit</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Create &#x2f;wordcount&#x2f;input</from>
+      <to>Create &#x2f;wordcount&#x2f;output</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Create &#x2f;wordcount&#x2f;output</from>
+      <to>Set output permissions</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Set output permissions</from>
+      <to>Delete &#x2f;wordcount-hdfs-output</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
