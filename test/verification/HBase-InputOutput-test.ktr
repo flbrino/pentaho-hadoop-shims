@@ -7,7 +7,7 @@
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
-    <directory>&#47;</directory>
+    <directory>&#x2f;</directory>
     <parameters>
     </parameters>
     <log>
@@ -64,14 +64,16 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2012&#47;04&#47;02 10:55:08.902</created_date>
+  <created_date>2012&#x2f;04&#x2f;02 10&#x3a;55&#x3a;08.902</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2012&#47;04&#47;02 10:55:08.902</modified_date>
+  <modified_date>2012&#x2f;04&#x2f;02 10&#x3a;55&#x3a;08.902</modified_date>
   </info>
   <notepads>
   </notepads>
   <order>
-  <hop> <from>HBase Input</from><to>HBase Output</to><enabled>Y</enabled> </hop>  <hop> <from>Hadoop Input</from><to>Hadoop Output</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>HBase Input</from><to>HBase Output</to><enabled>Y</enabled> </hop>
+  <hop> <from>Hadoop Input</from><to>Hadoop Output</to><enabled>Y</enabled> </hop>
+  </order>
   <step>
     <name>HBase Input</name>
     <type>HBaseInput</type>
@@ -83,9 +85,9 @@
            <schema_name/>
            </partitioning>
 
-    <zookeeper_hosts>bad-hdp130-cent-nn</zookeeper_hosts>
+    <zookeeper_hosts>&#x24;&#x7b;zookeeper.hostname&#x7d;</zookeeper_hosts>
 
-    <zookeeper_port>2181</zookeeper_port>
+    <zookeeper_port>&#x24;&#x7b;zookeeper.port&#x7d;</zookeeper_port>
 
     <source_table_name>weblogs</source_table_name>
 
@@ -125,7 +127,7 @@
 
             <type>Integer</type>
 
-            <format>#;-#</format>
+            <format>&#x23;&#x3b;-&#x23;</format>
 
         </field>
         <field>
@@ -143,7 +145,7 @@
 
             <type>Integer</type>
 
-            <format>#;-#</format>
+            <format>&#x23;&#x3b;-&#x23;</format>
 
         </field>
         <field>
@@ -161,7 +163,7 @@
 
             <type>Integer</type>
 
-            <format>#;-#</format>
+            <format>&#x23;&#x3b;-&#x23;</format>
 
         </field>
         <field>
@@ -179,7 +181,7 @@
 
             <type>Integer</type>
 
-            <format>#;-#</format>
+            <format>&#x23;&#x3b;-&#x23;</format>
 
         </field>
         <field>
@@ -197,7 +199,7 @@
 
             <type>Integer</type>
 
-            <format>#;-#</format>
+            <format>&#x23;&#x3b;-&#x23;</format>
 
         </field>
         <field>
@@ -215,7 +217,7 @@
 
             <type>Integer</type>
 
-            <format>#;-#</format>
+            <format>&#x23;&#x3b;-&#x23;</format>
 
         </field>
         <field>
@@ -233,7 +235,7 @@
 
             <type>Integer</type>
 
-            <format>#;-#</format>
+            <format>&#x23;&#x3b;-&#x23;</format>
 
         </field>
         <field>
@@ -251,7 +253,7 @@
 
             <type>Integer</type>
 
-            <format>#;-#</format>
+            <format>&#x23;&#x3b;-&#x23;</format>
 
         </field>
         <field>
@@ -269,7 +271,7 @@
 
             <type>Integer</type>
 
-            <format>#;-#</format>
+            <format>&#x23;&#x3b;-&#x23;</format>
 
         </field>
         <field>
@@ -287,7 +289,7 @@
 
             <type>Integer</type>
 
-            <format>#;-#</format>
+            <format>&#x23;&#x3b;-&#x23;</format>
 
         </field>
         <field>
@@ -305,7 +307,7 @@
 
             <type>Integer</type>
 
-            <format>#;-#</format>
+            <format>&#x23;&#x3b;-&#x23;</format>
 
         </field>
         <field>
@@ -323,7 +325,7 @@
 
             <type>Integer</type>
 
-            <format>#;-#</format>
+            <format>&#x23;&#x3b;-&#x23;</format>
 
         </field>
     </output_fields>
@@ -347,9 +349,9 @@
            <schema_name/>
            </partitioning>
 
-    <zookeeper_hosts>bad-hdp130-cent-nn</zookeeper_hosts>
+    <zookeeper_hosts>&#x24;&#x7b;zookeeper.hostname&#x7d;</zookeeper_hosts>
 
-    <zookeeper_port>2181</zookeeper_port>
+    <zookeeper_port>&#x24;&#x7b;zookeeper.port&#x7d;</zookeeper_port>
 
     <target_table_name>weblogs2</target_table_name>
 

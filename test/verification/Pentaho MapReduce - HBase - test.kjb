@@ -31,6 +31,16 @@
             <default_value>50300</default_value>
             <description/>
         </parameter>
+        <parameter>
+            <name>zookeeper.hostname</name>
+            <default_value>&#x24;&#x7b;hadoop.hostname&#x7d;</default_value>
+            <description/>
+        </parameter>
+        <parameter>
+            <name>zookeeper.port</name>
+            <default_value>2181</default_value>
+            <description/>
+        </parameter>
     </parameters>
     <slaveservers>
          <slaveserver><name>di server</name><hostname>localhost</hostname><port>9080</port><webAppName>pentaho-di</webAppName><username>joe</username><password>Encrypted 2be98afc86aa7f2e4bb18bd63c99dbdde</password><proxy_hostname/><proxy_port/><non_proxy_hosts/><master>N</master></slaveserver>
