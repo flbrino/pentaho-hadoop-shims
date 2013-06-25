@@ -22,6 +22,11 @@
             <description/>
         </parameter>
         <parameter>
+            <name>hadoop.scheme</name>
+            <default_value>hdfs</default_value>
+            <description/>
+        </parameter>
+        <parameter>
             <name>hive.database</name>
             <default_value>default</default_value>
             <description/>
@@ -133,22 +138,22 @@
       <fields>
         <field>
           <source_filefolder>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;part-00000</source_filefolder>
-          <destination_filefolder>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi&#x2f;weblogs&#x2f;parse&#x2f;</destination_filefolder>
+          <destination_filefolder>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi&#x2f;weblogs&#x2f;parse&#x2f;</destination_filefolder>
           <wildcard/>
         </field>
         <field>
           <source_filefolder>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;part-00000</source_filefolder>
-          <destination_filefolder>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;tmp</destination_filefolder>
+          <destination_filefolder>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;tmp</destination_filefolder>
           <wildcard/>
         </field>
         <field>
           <source_filefolder>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;weblogs_rebuild.txt</source_filefolder>
-          <destination_filefolder>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi&#x2f;weblogs&#x2f;raw</destination_filefolder>
+          <destination_filefolder>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi&#x2f;weblogs&#x2f;raw</destination_filefolder>
           <wildcard/>
         </field>
         <field>
           <source_filefolder>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;</source_filefolder>
-          <destination_filefolder>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount&#x2f;input</destination_filefolder>
+          <destination_filefolder>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount&#x2f;input</destination_filefolder>
           <wildcard>pg.&#x2a;&#x5c;.txt</wildcard>
         </field>
       </fields>
@@ -195,7 +200,7 @@
       <sql>drop table if exists weblogs&#x3b;&#xa;create table weblogs &#x28;&#xa;client_ip    string,&#xa;full_request_date string,&#xa;day    string,&#xa;month    string,&#xa;month_num int,&#xa;year    string,&#xa;hour    string,&#xa;minute    string,&#xa;second    string,&#xa;timezone    string,&#xa;http_verb    string,&#xa;uri    string,&#xa;http_status_code    string,&#xa;bytes_returned        string,&#xa;referrer        string,&#xa;user_agent    string&#x29;&#xa;row format delimited&#xa;fields terminated by &#x27;&#x5c;t&#x27;&#x3b;&#xa;&#xa;LOAD DATA INPATH &#x27;&#x2f;tmp&#x2f;part-00000&#x27; INTO TABLE weblogs&#x3b;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
-      <sqlfilename>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;tmp&#x2f;FoodmartDDL.txt</sqlfilename>
+      <sqlfilename>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;tmp&#x2f;FoodmartDDL.txt</sqlfilename>
       <sendOneStatement>F</sendOneStatement>
       <connection>Hive 2</connection>
       <parallel>N</parallel>
@@ -208,7 +213,7 @@
       <name>Create &#x2f;user</name>
       <description/>
       <type>CREATE_FOLDER</type>
-      <foldername>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user</foldername>
+      <foldername>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user</foldername>
       <fail_of_folder_exists>N</fail_of_folder_exists>
       <parallel>N</parallel>
       <draw>Y</draw>
@@ -225,7 +230,7 @@
       <limit_folders>10</limit_folders>
       <fields>
         <field>
-          <name>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi</name>
+          <name>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi</name>
         </field>
       </fields>
       <parallel>N</parallel>
@@ -238,7 +243,7 @@
       <name>Create &#x2f;user&#x2f;pdi</name>
       <description/>
       <type>CREATE_FOLDER</type>
-      <foldername>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi</foldername>
+      <foldername>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi</foldername>
       <fail_of_folder_exists>Y</fail_of_folder_exists>
       <parallel>N</parallel>
       <draw>Y</draw>
@@ -250,7 +255,7 @@
       <name>Create &#x2f;user&#x2f;pdi&#x2f;weblogs</name>
       <description/>
       <type>CREATE_FOLDER</type>
-      <foldername>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi&#x2f;weblogs</foldername>
+      <foldername>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi&#x2f;weblogs</foldername>
       <fail_of_folder_exists>Y</fail_of_folder_exists>
       <parallel>N</parallel>
       <draw>Y</draw>
@@ -262,7 +267,7 @@
       <name>Create &#x2f;user&#x2f;pdi&#x2f;weblogs&#x2f;raw</name>
       <description/>
       <type>CREATE_FOLDER</type>
-      <foldername>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi&#x2f;weblogs&#x2f;raw</foldername>
+      <foldername>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi&#x2f;weblogs&#x2f;raw</foldername>
       <fail_of_folder_exists>Y</fail_of_folder_exists>
       <parallel>N</parallel>
       <draw>Y</draw>
@@ -274,7 +279,7 @@
       <name>Create &#x2f;user&#x2f;pdi&#x2f;weblogs&#x2f;parse</name>
       <description/>
       <type>CREATE_FOLDER</type>
-      <foldername>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi&#x2f;weblogs&#x2f;parse</foldername>
+      <foldername>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi&#x2f;weblogs&#x2f;parse</foldername>
       <fail_of_folder_exists>Y</fail_of_folder_exists>
       <parallel>N</parallel>
       <draw>Y</draw>
@@ -291,7 +296,7 @@
       <limit_folders>10</limit_folders>
       <fields>
         <field>
-          <name>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount</name>
+          <name>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount</name>
         </field>
       </fields>
       <parallel>N</parallel>
@@ -304,7 +309,7 @@
       <name>Create &#x2f;wordcount</name>
       <description/>
       <type>CREATE_FOLDER</type>
-      <foldername>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount</foldername>
+      <foldername>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount</foldername>
       <fail_of_folder_exists>Y</fail_of_folder_exists>
       <parallel>N</parallel>
       <draw>Y</draw>
@@ -316,7 +321,7 @@
       <name>Create &#x2f;wordcount&#x2f;input</name>
       <description/>
       <type>CREATE_FOLDER</type>
-      <foldername>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount&#x2f;input</foldername>
+      <foldername>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount&#x2f;input</foldername>
       <fail_of_folder_exists>Y</fail_of_folder_exists>
       <parallel>N</parallel>
       <draw>Y</draw>
@@ -333,7 +338,7 @@
       <limit_folders>10</limit_folders>
       <fields>
         <field>
-          <name>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount-hdfs-output</name>
+          <name>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount-hdfs-output</name>
         </field>
       </fields>
       <parallel>N</parallel>
@@ -346,7 +351,7 @@
       <name>Create &#x2f;wordcount-hdfs-output</name>
       <description/>
       <type>CREATE_FOLDER</type>
-      <foldername>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount-hdfs-output</foldername>
+      <foldername>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount-hdfs-output</foldername>
       <fail_of_folder_exists>Y</fail_of_folder_exists>
       <parallel>N</parallel>
       <draw>Y</draw>
@@ -488,7 +493,7 @@
       <sql>drop table if exists weblogs&#x3b;&#xa;create table weblogs &#x28;&#xa;client_ip    string,&#xa;full_request_date string,&#xa;day    string,&#xa;month    string,&#xa;month_num int,&#xa;year    string,&#xa;hour    string,&#xa;minute    string,&#xa;second    string,&#xa;timezone    string,&#xa;http_verb    string,&#xa;uri    string,&#xa;http_status_code    string,&#xa;bytes_returned        string,&#xa;referrer        string,&#xa;user_agent    string&#x29;&#xa;row format delimited&#xa;fields terminated by &#x27;&#x5c;t&#x27;&#x3b;&#xa;&#xa;LOAD DATA INPATH &#x27;&#x2f;tmp&#x2f;part-00000&#x27; INTO TABLE weblogs&#x3b;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
-      <sqlfilename>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;tmp&#x2f;FoodmartDDL.txt</sqlfilename>
+      <sqlfilename>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;tmp&#x2f;FoodmartDDL.txt</sqlfilename>
       <sendOneStatement>F</sendOneStatement>
       <connection>Hive</connection>
       <parallel>N</parallel>
@@ -501,7 +506,7 @@
       <name>Create &#x2f;wordcount&#x2f;output</name>
       <description/>
       <type>CREATE_FOLDER</type>
-      <foldername>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount&#x2f;output</foldername>
+      <foldername>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount&#x2f;output</foldername>
       <fail_of_folder_exists>Y</fail_of_folder_exists>
       <parallel>N</parallel>
       <draw>Y</draw>
