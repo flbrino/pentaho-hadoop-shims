@@ -83,7 +83,7 @@
            </partitioning>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>var pluginRegistry &#x3d; org.pentaho.di.core.plugins.PluginRegistry.getInstance&#x28;&#x29;&#x3b;&#xa;var bootstrapPlugin &#x3d; pluginRegistry.getPlugin&#x28;org.pentaho.di.core.plugins.KettleLifecyclePluginType, &#x27;HadoopConfigurationBootstrap&#x27;&#x29;&#x3b;&#xa;var providerClass &#x3d; pluginRegistry.getClass&#x28;bootstrapPlugin, &#x27;org.pentaho.di.core.hadoop.HadoopConfigurationBootstrap&#x27;&#x29;&#x3b;&#xa;var provider &#x3d; providerClass.getMethod&#x28;&#x27;getHadoopConfigurationProvider&#x27;&#x29;.invoke&#x28;null&#x29;&#x3b;&#xa;var active &#x3d; provider.getActiveConfiguration&#x28;&#x29;&#x3b;&#xa;var hadoopShim &#x3d; active.getHadoopShim&#x28;&#x29;&#x3b;&#xa;var shimClassLoader &#x3d; hadoopShim.getClass&#x28;&#x29;.getClassLoader&#x28;&#x29;&#x3b;&#xa;var fileSystemClass &#x3d; shimClassLoader.loadClass&#x28;&#x27;org.apache.hadoop.fs.FileSystem&#x27;&#x29;&#x3b;&#xa;var pathClass &#x3d; shimClassLoader.loadClass&#x28;&#x27;org.apache.hadoop.fs.Path&#x27;&#x29;&#x3b;&#xa;var permissionClass &#x3d; shimClassLoader.loadClass&#x28;&#x27;org.apache.hadoop.fs.permission.FsPermission&#x27;&#x29;&#x3b;&#xa;var pathConstructor &#x3d; pathClass.getConstructor&#x28;java.lang.String&#x29;&#x3b;&#xa;var permissionConstructor &#x3d; permissionClass.getConstructor&#x28;java.lang.String&#x29;&#x3b;&#xa;var hdfsUrl &#x3d; &#x27;hdfs&#x3a;&#x2f;&#x2f;&#x27; &#x2b; hadoop_hostname &#x2b; &#x27;&#x3a;&#x27; &#x2b; hadoop_port&#xa;&#xa;var hadoopConf &#x3d; hadoopShim.createConfiguration&#x28;&#x29;&#x3b;&#xa;hadoopConf.set&#x28;&#x22;fs.default.name&#x22;,hdfsUrl&#x29;&#x3b;&#xa;var fileSystem &#x3d; hadoopShim.getFileSystem&#x28;hadoopConf&#x29;.getDelegate&#x28;&#x29;&#x3b;&#xa;&#xa;function changePermissions&#x28;pathStr, permissionStr&#x29; &#x7b;&#xa;  var path &#x3d; pathConstructor.newInstance&#x28;new java.lang.String&#x28;pathStr&#x29;&#x29;&#x3b;&#xa;  var permission &#x3d; permissionConstructor.newInstance&#x28;new java.lang.String&#x28;permissionStr&#x29;&#x29;&#x3b;&#xa;  fileSystem.setPermission&#x28;path, permission&#x29;&#x3b;&#xa;&#x7d;&#xa;&#xa;changePermissions&#x28;&#x27;&#x2f;wordcount&#x2f;output&#x27;, 777&#x29;&#x3b;</jsScript_script>
+        <jsScript_script>var pluginRegistry &#x3d; org.pentaho.di.core.plugins.PluginRegistry.getInstance&#x28;&#x29;&#x3b;&#xa;var bootstrapPlugin &#x3d; pluginRegistry.getPlugin&#x28;org.pentaho.di.core.plugins.KettleLifecyclePluginType, &#x27;HadoopConfigurationBootstrap&#x27;&#x29;&#x3b;&#xa;var providerClass &#x3d; pluginRegistry.getClass&#x28;bootstrapPlugin, &#x27;org.pentaho.di.core.hadoop.HadoopConfigurationBootstrap&#x27;&#x29;&#x3b;&#xa;var provider &#x3d; providerClass.getMethod&#x28;&#x27;getHadoopConfigurationProvider&#x27;&#x29;.invoke&#x28;null&#x29;&#x3b;&#xa;var active &#x3d; provider.getActiveConfiguration&#x28;&#x29;&#x3b;&#xa;var hadoopShim &#x3d; active.getHadoopShim&#x28;&#x29;&#x3b;&#xa;var shimClassLoader &#x3d; hadoopShim.getClass&#x28;&#x29;.getClassLoader&#x28;&#x29;&#x3b;&#xa;var fileSystemClass &#x3d; shimClassLoader.loadClass&#x28;&#x27;org.apache.hadoop.fs.FileSystem&#x27;&#x29;&#x3b;&#xa;var pathClass &#x3d; shimClassLoader.loadClass&#x28;&#x27;org.apache.hadoop.fs.Path&#x27;&#x29;&#x3b;&#xa;var permissionClass &#x3d; shimClassLoader.loadClass&#x28;&#x27;org.apache.hadoop.fs.permission.FsPermission&#x27;&#x29;&#x3b;&#xa;var pathConstructor &#x3d; pathClass.getConstructor&#x28;java.lang.String&#x29;&#x3b;&#xa;var permissionConstructor &#x3d; permissionClass.getConstructor&#x28;java.lang.String&#x29;&#x3b;&#xa;var hdfsUrl &#x3d; hadoop_scheme &#x2b; &#x27;&#x3a;&#x2f;&#x2f;&#x27; &#x2b; hadoop_hostname &#x2b; &#x27;&#x3a;&#x27; &#x2b; hadoop_port&#xa;&#xa;var hadoopConf &#x3d; hadoopShim.createConfiguration&#x28;&#x29;&#x3b;&#xa;hadoopConf.set&#x28;&#x22;fs.default.name&#x22;,hdfsUrl&#x29;&#x3b;&#xa;var fileSystem &#x3d; hadoopShim.getFileSystem&#x28;hadoopConf&#x29;.getDelegate&#x28;&#x29;&#x3b;&#xa;&#xa;function changePermissions&#x28;pathStr, permissionStr&#x29; &#x7b;&#xa;  var path &#x3d; pathConstructor.newInstance&#x28;new java.lang.String&#x28;pathStr&#x29;&#x29;&#x3b;&#xa;  var permission &#x3d; permissionConstructor.newInstance&#x28;new java.lang.String&#x28;permissionStr&#x29;&#x29;&#x3b;&#xa;  fileSystem.setPermission&#x28;path, permission&#x29;&#x3b;&#xa;&#x7d;&#xa;&#xa;changePermissions&#x28;&#x27;&#x2f;wordcount&#x2f;output&#x27;, 777&#x29;&#x3b;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>272</xloc>
@@ -119,6 +119,18 @@
         <name>hadoop_hostname</name>
         <variable>&#x24;&#x7b;hadoop.hostname&#x7d;</variable>
         <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>hadoop_scheme</name>
+        <variable>&#x24;&#x7b;hadoop.scheme&#x7d;</variable>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
