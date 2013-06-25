@@ -22,13 +22,18 @@
             <description/>
         </parameter>
         <parameter>
+            <name>hadoop.scheme</name>
+            <default_value>hdfs</default_value>
+            <description/>
+        </parameter>
+        <parameter>
             <name>jobtracker.hostname</name>
-            <default_value/>
+            <default_value>&#x24;&#x7b;hadoop.hostname&#x7d;</default_value>
             <description/>
         </parameter>
         <parameter>
             <name>jobtracker.port</name>
-            <default_value>50300</default_value>
+            <default_value>8021</default_value>
             <description/>
         </parameter>
     </parameters>
@@ -104,7 +109,7 @@
       <limit_folders>10</limit_folders>
       <fields>
         <field>
-          <name>hdfs&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi&#x2f;weblogs&#x2f;aggregate_pig</name>
+          <name>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi&#x2f;weblogs&#x2f;aggregate_pig</name>
         </field>
       </fields>
       <parallel>N</parallel>
