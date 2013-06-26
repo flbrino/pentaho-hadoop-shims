@@ -1,0 +1,142 @@
+<!--===========================================================================
+  This is the build file for the HDP 1.3 Shim modules.
+  
+  See ../build-res/subfloor.xml for more details
+============================================================================-->
+<project name="pentaho-hadoop-shims-hdp13" basedir="." default="dist"
+  xmlns:ivy="antlib:org.apache.ivy.ant" >
+    
+  <description>
+    This build file is used to create the HDP1.3 Shim module for the Big Data plugin
+    and is based off Subfloor (../build-res/subfloor.xml)
+  </description>
+
+  <import file="../../build-res/subfloor.xml"/>
+
+	<macrodef name="ivy-resolve">
+    <attribute name="ivyfile" default="${ivyfile}" />
+    <attribute name="conf" default="default" />
+    <attribute name="directory"/>
+    <sequential>
+      <mkdir dir="@{directory}" />
+      <ivy:resolve file="@{ivyfile}" conf="@{conf}" />
+      <ivy:retrieve conf="@{conf}" pattern="@{directory}/[module]-[revision](-[classifier]).[ext]" />
+    </sequential>
+  </macrodef>
+
+  <target name="resolve" depends="install-ivy">
+    <mkdir dir="bin/stage/pdi-ce" />
+    <mkdir dir="bin/run" />
+    <get src="${kettle.url}" dest="${subfloor.tmp.dir}/${kettle.name}" usetimestamp="true"/>
+    <ivy-resolve conf="big-data-plugin" directory="bin/stage/big-data-plugin" />
+    <ivy-resolve conf="shim" directory="bin/stage/shim" />
+    <ivy-resolve conf="big-data-samples" directory="bin/stage/big-data-samples" />
+  </target>
+
+  <target name="build" depends="resolve">
+    <unzip dest="bin/run" src="${subfloor.tmp.dir}/${kettle.name}"/>
+    <unzip dest="bin/run/plugins">
+      <fileset dir="bin/stage/big-data-plugin" />
+    </unzip>
+    <delete includeemptydirs="true">
+      <fileset dir="bin/run/plugins/pentaho-big-data-plugin/hadoop-configurations/" includes="**/*" />
+    </delete>
+    <unzip dest="bin/run/plugins/pentaho-big-data-plugin/hadoop-configurations/">
+      <fileset dir="bin/stage/shim" />
+    </unzip>
+    <unzip dest="bin/run/samples">
+      <fileset dir="bin/stage/big-data-samples" />
+    </unzip>
+    <replace file="bin/run/plugins/pentaho-big-data-plugin/plugin.properties" token="hadoop-20" value="${shim}"/>
+  </target>
+
+  <target name="load" depends="build">
+    <chmod file="bin/run/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+      <arg value="-norep" />
+      <arg value="-file" />
+      <arg path="jobs/load_wordcount.kjb" />
+      <arg value="-param:hadoop.hostname=${hadoop.hostname}" />
+      <arg value="-param:hadoop.port=${hadoop.port}" />
+      <arg value="-param:hadoop.scheme=${hadoop.scheme}" />
+      <arg value="-param:hive.database=${hive.database}" />
+      <arg value="-param:hive.hostname=${hive.hostname}" />
+      <arg value="-param:hive.port=${hive.port}" />
+      <arg value="-param:hive.version=${hive.version}" />
+      <arg value="-param:zookeeper.hostname=${zookeeper.hostname}" />
+      <arg value="-param:zookeeper.port=${zookeeper.port}" />
+    </exec>
+  </target>
+
+  <target name="pig" depends="build">
+    <chmod file="bin/run/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+      <arg value="-norep" />
+      <arg value="-file" />
+      <arg path="jobs/aggregate_pig.kjb" />
+      <arg value="-param:hadoop.hostname=${hadoop.hostname}" />
+      <arg value="-param:hadoop.port=${hadoop.port}" />
+      <arg value="-param:hadoop.scheme=${hadoop.scheme}" />
+      <arg value="-param:jobtracker.hostname=${jobtracker.hostname}" />
+      <arg value="-param:jobtracker.port=${jobtracker.port}" />
+    </exec>
+  </target>
+
+  <target name="mr" depends="build">
+    <chmod file="bin/run/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+      <arg value="-norep" />
+      <arg value="-file" />
+      <arg path="jobs/aggregate_mr.kjb" />
+      <arg value="-param:hadoop.hostname=${hadoop.hostname}" />
+      <arg value="-param:hadoop.port=${hadoop.port}" />
+      <arg value="-param:jobtracker.hostname=${jobtracker.hostname}" />
+      <arg value="-param:jobtracker.port=${jobtracker.port}" />
+    </exec>
+  </target>
+
+  <target name="pmr-wc" depends="build">
+    <chmod file="bin/run/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+      <arg value="-norep" />
+      <arg value="-file" />
+      <arg path="jobs/Pentaho MapReduce - wordcount - test.kjb" />
+      <arg value="-param:hadoop.hostname=${hadoop.hostname}" />
+      <arg value="-param:hadoop.port=${hadoop.port}" />
+      <arg value="-param:jobtracker.hostname=${jobtracker.hostname}" />
+      <arg value="-param:jobtracker.port=${jobtracker.port}" />
+    </exec>
+  </target>
+
+  <target name="pmr-hbase" depends="build">
+    <chmod file="bin/run/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+      <arg value="-norep" />
+      <arg value="-file" />
+      <arg path="jobs/Pentaho MapReduce - HBase - test.kjb" />
+      <arg value="-param:hadoop.hostname=${hadoop.hostname}" />
+      <arg value="-param:hadoop.port=${hadoop.port}" />
+      <arg value="-param:jobtracker.hostname=${jobtracker.hostname}" />
+      <arg value="-param:jobtracker.port=${jobtracker.port}" />
+      <arg value="-param:zookeeper.hostname=${zookeeper.hostname}" />
+      <arg value="-param:zookeeper.port=${zookeeper.port}" />
+    </exec>
+  </target>
+
+   <target name="pmr-simple" depends="build">
+    <chmod file="bin/run/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+      <arg value="-norep" />
+      <arg value="-file" />
+      <arg path="jobs/Hadoop Job Executor simple.kjb" />
+      <arg value="-param:hadoop.hostname=${hadoop.hostname}" />
+      <arg value="-param:hadoop.port=${hadoop.port}" />
+      <arg value="-param:hadoop.scheme=${hadoop.scheme}" />
+      <arg value="-param:jobtracker.hostname=${jobtracker.hostname}" />
+      <arg value="-param:jobtracker.port=${jobtracker.port}" />
+      <arg value="-param:pmr-sample.jar.location=samples/jobs/hadoop/pentaho-mapreduce-sample.jar" />
+    </exec>
+  </target>
+
+ <target name="run-all" depends="load,pig,mr,pmr-wc,pmr-hbase,pmr-simple" />
+</project>

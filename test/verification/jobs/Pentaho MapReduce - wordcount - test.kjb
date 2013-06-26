@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>Pentaho MapReduce - HBase - test</name>
+  <name>Pentaho MapReduce - wordcount - test</name>
     <description/>
     <extended_description/>
     <job_version/>
@@ -31,20 +31,8 @@
             <default_value>50300</default_value>
             <description/>
         </parameter>
-        <parameter>
-            <name>zookeeper.hostname</name>
-            <default_value>&#x24;&#x7b;hadoop.hostname&#x7d;</default_value>
-            <description/>
-        </parameter>
-        <parameter>
-            <name>zookeeper.port</name>
-            <default_value>2181</default_value>
-            <description/>
-        </parameter>
     </parameters>
     <slaveservers>
-         <slaveserver><name>di server</name><hostname>localhost</hostname><port>9080</port><webAppName>pentaho-di</webAppName><username>joe</username><password>Encrypted 2be98afc86aa7f2e4bb18bd63c99dbdde</password><proxy_hostname/><proxy_port/><non_proxy_hosts/><master>N</master></slaveserver>
-         <slaveserver><name>Carte</name><hostname>localhost</hostname><port>9991</port><webAppName/><username>cluster</username><password>Encrypted 2be98afc86aa7f2e4cb1aa265cd86aac8</password><proxy_hostname/><proxy_port/><non_proxy_hosts/><master>N</master></slaveserver>
     </slaveservers>
 <job-log-table><connection/>
 <schema/>
@@ -67,14 +55,14 @@
    <shared_objects_file/>
   <entries>
     <entry>
-      <name>Pentaho MapReduce</name>
+      <name>Pentaho MapReduce &#x28;Wordcount&#x29;</name>
       <description/>
       <type>HadoopTransJobExecutorPlugin</type>
-      <hadoop_job_name>Pentaho MapReduce</hadoop_job_name>
+      <hadoop_job_name>Pentaho MapReduce &#x28;Wordcount&#x29;</hadoop_job_name>
       <map_trans_repo_dir/>
       <map_trans_repo_file/>
       <map_trans_repo_reference/>
-      <map_trans>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;HBase-InputOutput-test.ktr</map_trans>
+      <map_trans>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;wordcount-mapper-test.ktr</map_trans>
       <combiner_trans_repo_dir/>
       <combiner_trans_repo_file/>
       <combiner_trans_repo_reference/>
@@ -83,14 +71,14 @@
       <reduce_trans_repo_dir/>
       <reduce_trans_repo_file/>
       <reduce_trans_repo_reference/>
-      <reduce_trans/>
+      <reduce_trans>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;wordcount-reducer-test.ktr</reduce_trans>
       <reduce_single_threaded>Y</reduce_single_threaded>
       <map_input_step_name>Hadoop Input</map_input_step_name>
       <map_output_step_name>Hadoop Output</map_output_step_name>
       <combiner_input_step_name/>
       <combiner_output_step_name/>
-      <reduce_input_step_name/>
-      <reduce_output_step_name/>
+      <reduce_input_step_name>Hadoop Input</reduce_input_step_name>
+      <reduce_output_step_name>Hadoop Output</reduce_output_step_name>
       <blocking>Y</blocking>
       <logging_interval>5</logging_interval>
       <input_path>&#x2f;wordcount&#x2f;input</input_path>
@@ -107,7 +95,7 @@
       <job_tracker_hostname>&#x24;&#x7b;jobtracker.hostname&#x7d;</job_tracker_hostname>
       <job_tracker_port>&#x24;&#x7b;jobtracker.port&#x7d;</job_tracker_port>
       <num_map_tasks>1</num_map_tasks>
-      <num_reduce_tasks>0</num_reduce_tasks>
+      <num_reduce_tasks>1</num_reduce_tasks>
       <user_defined_list>
       </user_defined_list>
       <parallel>N</parallel>
@@ -154,13 +142,13 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>439</xloc>
-      <yloc>158</yloc>
+      <xloc>507</xloc>
+      <yloc>162</yloc>
       </entry>
   </entries>
   <hops>
     <hop>
-      <from>Pentaho MapReduce</from>
+      <from>Pentaho MapReduce &#x28;Wordcount&#x29;</from>
       <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -169,7 +157,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Pentaho MapReduce</from>
+      <from>Pentaho MapReduce &#x28;Wordcount&#x29;</from>
       <to>Failure</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -179,7 +167,7 @@
     </hop>
     <hop>
       <from>START</from>
-      <to>Pentaho MapReduce</to>
+      <to>Pentaho MapReduce &#x28;Wordcount&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -189,10 +177,10 @@
   </hops>
   <notepads>
     <notepad>
-      <note>SETUP INSTRUCTIONS&#x3a;&#xa;1. Update the &#x27;Pentaho MapReduce&#x27; step &#x28;Job Setup and Cluster tabs&#x29; to configure the correct paths and server names including&#x3a;&#xa;    - Input Path - the path in HDFS from which to read files for counting&#xa;    - Output Path - where the processed count of words will be placed.  This directory must not exist.&#xa;		- For the purposes of this validation, these only need to be valid directories on HDFS. The actual content is not used in the transformation.&#xa;    - HDFS Hostname&#xa;    - Job Tracker Hostname</note>
+      <note>SETUP INSTRUCTIONS&#x3a;&#xa;1. Create an input directory in HDFS and place text file&#x28;s&#x29; in the input directory that you want to use to test the wordcount example&#xa;2. Update the &#x27;Pentaho MapReduce&#x27; step &#x28;Job Setup and Cluster tabs&#x29; to configure the correct paths and server names including&#x3a;&#xa;    - Input Path - the path in HDFS from which to read files for counting&#xa;    - Output Path - where the processed count of words will be placed&#xa;    - HDFS Hostname&#xa;    - Job Tracker Hostname</note>
       <xloc>20</xloc>
       <yloc>40</yloc>
-      <width>861</width>
+      <width>761</width>
       <heigth>113</heigth>
       <fontname>Microsoft Sans Serif</fontname>
       <fontsize>8</fontsize>
