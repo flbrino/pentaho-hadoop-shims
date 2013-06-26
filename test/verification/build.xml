@@ -123,7 +123,7 @@
     </exec>
   </target>
 
-   <target name="pmr-simple" depends="build">
+  <target name="pmr-simple" depends="build">
     <chmod file="bin/run/kitchen.sh" perm="a+x" />
     <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
       <arg value="-norep" />
@@ -138,5 +138,20 @@
     </exec>
   </target>
 
- <target name="run-all" depends="load,pig,mr,pmr-wc,pmr-hbase,pmr-simple" />
+  <target name="pmr-hadoop-inputoutput" depends="build">
+    <chmod file="bin/run/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+      <arg value="-norep" />
+      <arg value="-file" />
+      <arg path="jobs/Pentaho MapReduce - Hadoop - test.kjb" />
+      <arg value="-param:hadoop.hostname=${hadoop.hostname}" />
+      <arg value="-param:hadoop.port=${hadoop.port}" />
+      <arg value="-param:hadoop.scheme=${hadoop.scheme}" />
+      <arg value="-param:hadoop.mapper=Hadoop-InputOutput-test.ktr" />
+      <arg value="-param:jobtracker.hostname=${jobtracker.hostname}" />
+      <arg value="-param:jobtracker.port=${jobtracker.port}" />
+    </exec>
+  </target>
+
+ <target name="run-all" depends="load,pig,mr,pmr-wc,pmr-hbase,pmr-simple,pmr-hadoop-inputoutput" />
 </project>
