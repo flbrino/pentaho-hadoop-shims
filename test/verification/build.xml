@@ -76,7 +76,7 @@
     </exec>
   </target>
 
-  <target name="pig" depends="build">
+  <target name="pig">
     <chmod file="bin/run/kitchen.sh" perm="a+x" />
     <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
       <arg value="-norep" />
@@ -90,7 +90,7 @@
     </exec>
   </target>
 
-  <target name="mr" depends="build">
+  <target name="mr">
     <chmod file="bin/run/kitchen.sh" perm="a+x" />
     <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
       <arg value="-norep" />
@@ -103,7 +103,7 @@
     </exec>
   </target>
 
-  <target name="pmr-wc" depends="build">
+  <target name="pmr-wc">
     <chmod file="bin/run/kitchen.sh" perm="a+x" />
     <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
       <arg value="-norep" />
@@ -116,7 +116,7 @@
     </exec>
   </target>
 
-  <target name="pmr-hbase" depends="build">
+  <target name="pmr-hbase">
     <chmod file="bin/run/kitchen.sh" perm="a+x" />
     <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
       <arg value="-norep" />
@@ -131,7 +131,7 @@
     </exec>
   </target>
 
-  <target name="pmr-simple" depends="build">
+  <target name="pmr-simple">
     <chmod file="bin/run/kitchen.sh" perm="a+x" />
     <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
       <arg value="-norep" />
@@ -146,7 +146,7 @@
     </exec>
   </target>
 
-  <target name="pmr-hadoop-inputoutput" depends="build">
+  <target name="pmr-hadoop-inputoutput">
     <chmod file="bin/run/kitchen.sh" perm="a+x" />
     <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
       <arg value="-norep" />
@@ -161,7 +161,7 @@
     </exec>
   </target>
 
-  <target name="hive-input" depends="build">
+  <target name="hive-input">
     <chmod file="bin/run/kitchen.sh" perm="a+x" />
     <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
       <arg value="-norep" />
