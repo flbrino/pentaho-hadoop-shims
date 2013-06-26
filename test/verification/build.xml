@@ -31,6 +31,7 @@
     <ivy-resolve conf="big-data-plugin" directory="bin/stage/big-data-plugin" />
     <ivy-resolve conf="shim" directory="bin/stage/shim" />
     <ivy-resolve conf="big-data-samples" directory="bin/stage/big-data-samples" />
+    <ivy-resolve conf="hive-jdbc" directory="bin/stage/hive-jdbc" />
   </target>
 
   <target name="build" depends="resolve">
@@ -47,13 +48,20 @@
     <unzip dest="bin/run/samples">
       <fileset dir="bin/stage/big-data-samples" />
     </unzip>
+    <delete>
+      <fileset dir="bin/run/libext/JDBC" includes="pentaho-hadoop-hive-jdbc-shim-*.jar" />
+    </delete>
+    <copy todir="bin/run/libext/JDBC">
+      <fileset dir="bin/stage/hive-jdbc" />
+    </copy>
     <replace file="bin/run/plugins/pentaho-big-data-plugin/plugin.properties" token="hadoop-20" value="${shim}"/>
   </target>
 
-  <target name="load" depends="build">
+  <target name="load">
     <chmod file="bin/run/kitchen.sh" perm="a+x" />
     <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
       <arg value="-norep" />
+      <arg value="-level Debug" />
       <arg value="-file" />
       <arg path="jobs/load_wordcount.kjb" />
       <arg value="-param:hadoop.hostname=${hadoop.hostname}" />
@@ -62,7 +70,7 @@
       <arg value="-param:hive.database=${hive.database}" />
       <arg value="-param:hive.hostname=${hive.hostname}" />
       <arg value="-param:hive.port=${hive.port}" />
-      <arg value="-param:hive.version=${hive.version}" />
+      <arg value="-param:hive.type=${hive.type}" />
       <arg value="-param:zookeeper.hostname=${zookeeper.hostname}" />
       <arg value="-param:zookeeper.port=${zookeeper.port}" />
     </exec>
@@ -153,5 +161,18 @@
     </exec>
   </target>
 
- <target name="run-all" depends="load,pig,mr,pmr-wc,pmr-hbase,pmr-simple,pmr-hadoop-inputoutput" />
+  <target name="hive-input" depends="build">
+    <chmod file="bin/run/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+      <arg value="-norep" />
+      <arg value="-file" />
+      <arg path="jobs/Hive-Input-test.kjb" />
+      <arg value="-param:hive.hostname=${hive.hostname}" />
+      <arg value="-param:hive.port=${hive.port}" />
+      <arg value="-param:hive.database=${hive.database}" />
+      <arg value="-param:hive.type=${hive.type}" />
+    </exec>
+  </target>
+
+ <target name="run-all" depends="load,pig,mr,pmr-wc,pmr-hbase,pmr-simple,pmr-hadoop-inputoutput,hive-input" />
 </project>

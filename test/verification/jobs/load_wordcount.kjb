@@ -42,8 +42,8 @@
             <description/>
         </parameter>
         <parameter>
-            <name>hive.version</name>
-            <default_value>2</default_value>
+            <name>hive.type</name>
+            <default_value>hive2</default_value>
             <description/>
         </parameter>
         <parameter>
@@ -83,6 +83,28 @@
     <name>Hive 2</name>
     <server>&#x24;&#x7b;hive.hostname&#x7d;</server>
     <type>HIVE2</type>
+    <access>Native</access>
+    <database>&#x24;&#x7b;hive.database&#x7d;</database>
+    <port>&#x24;&#x7b;hive.port&#x7d;</port>
+    <username/>
+    <password>Encrypted </password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>&#x24;&#x7b;hive.port&#x7d;</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
+    <name>Impala</name>
+    <server>&#x24;&#x7b;hive.hostname&#x7d;</server>
+    <type>IMPALA</type>
     <access>Native</access>
     <database>&#x24;&#x7b;hive.database&#x7d;</database>
     <port>&#x24;&#x7b;hive.port&#x7d;</port>
@@ -206,8 +228,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>162</xloc>
-      <yloc>212</yloc>
+      <xloc>160</xloc>
+      <yloc>333</yloc>
       </entry>
     <entry>
       <name>Create &#x2f;user</name>
@@ -470,10 +492,10 @@
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>&#x24;&#x7b;hive.version&#x7d;</variablename>
+      <variablename>&#x24;&#x7b;hive.type&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
-      <comparevalue>2</comparevalue>
+      <comparevalue>hive2</comparevalue>
       <minvalue/>
       <maxvalue/>
       <successcondition>equal</successcondition>
@@ -483,8 +505,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>41</xloc>
-      <yloc>244</yloc>
+      <xloc>42</xloc>
+      <yloc>379</yloc>
       </entry>
     <entry>
       <name>Hive 1 Sql</name>
@@ -500,7 +522,7 @@
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>161</xloc>
-      <yloc>293</yloc>
+      <yloc>427</yloc>
       </entry>
     <entry>
       <name>Create &#x2f;wordcount&#x2f;output</name>
@@ -552,6 +574,44 @@
       <nr>0</nr>
       <xloc>532</xloc>
       <yloc>136</yloc>
+      </entry>
+    <entry>
+      <name>Impala Sql</name>
+      <description/>
+      <type>SQL</type>
+      <sql>drop table if exists weblogs&#x3b;&#xa;create table weblogs &#x28;&#xa;client_ip    string,&#xa;full_request_date string,&#xa;day    string,&#xa;month    string,&#xa;month_num int,&#xa;year    string,&#xa;hour    string,&#xa;minute    string,&#xa;second    string,&#xa;timezone    string,&#xa;http_verb    string,&#xa;uri    string,&#xa;http_status_code    string,&#xa;bytes_returned        string,&#xa;referrer        string,&#xa;user_agent    string&#x29;&#xa;row format delimited&#xa;fields terminated by &#x27;&#x5c;t&#x27;&#x3b;&#xa;&#xa;LOAD DATA INPATH &#x27;&#x2f;tmp&#x2f;part-00000&#x27; INTO TABLE weblogs&#x3b;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;tmp&#x2f;FoodmartDDL.txt</sqlfilename>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>Impala</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>165</xloc>
+      <yloc>248</yloc>
+      </entry>
+    <entry>
+      <name>Simple evaluation 2</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>&#x24;&#x7b;hive.type&#x7d;</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>impala</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>42</xloc>
+      <yloc>248</yloc>
       </entry>
   </entries>
   <hops>
@@ -691,15 +751,6 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Hadoop Upload</from>
-      <to>Simple evaluation</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>Simple evaluation</from>
       <to>Hive 2 Sql</to>
       <from_nr>0</from_nr>
@@ -747,6 +798,42 @@
     <hop>
       <from>Set output permissions</from>
       <to>Delete &#x2f;wordcount-hdfs-output</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Hadoop Upload</from>
+      <to>Simple evaluation 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2</from>
+      <to>Impala Sql</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2</from>
+      <to>Simple evaluation</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Impala Sql</from>
+      <to>HbaseInit</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
