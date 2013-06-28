@@ -72,7 +72,7 @@
       <map_trans_repo_dir/>
       <map_trans_repo_file/>
       <map_trans_repo_reference/>
-      <map_trans>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;HBase-InputOutput-test.ktr</map_trans>
+      <map_trans>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;dependencies&#x2f;HBase-InputOutput-test.ktr</map_trans>
       <combiner_trans_repo_dir/>
       <combiner_trans_repo_file/>
       <combiner_trans_repo_reference/>

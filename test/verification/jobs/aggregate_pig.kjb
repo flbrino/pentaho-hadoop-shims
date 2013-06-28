@@ -87,7 +87,7 @@
     <hdfs_port>&#x24;&#x7b;hadoop.port&#x7d;</hdfs_port>
     <jobtracker_hostname>&#x24;&#x7b;jobtracker.hostname&#x7d;</jobtracker_hostname>
     <jobtracker_port>&#x24;&#x7b;jobtracker.port&#x7d;</jobtracker_port>
-    <script_file>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;aggregate_pig.pig</script_file>
+    <script_file>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;dependencies&#x2f;aggregate_pig.pig</script_file>
     <enable_blocking>Y</enable_blocking>
     <local_execution>N</local_execution>
     <script_parameters>

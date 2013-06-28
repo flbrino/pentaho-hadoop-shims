@@ -58,6 +58,25 @@
         </parameter>
     </parameters>
   <connection>
+    <name>AgileBI</name>
+    <server>localhost</server>
+    <type>MONETDB</type>
+    <access>Native</access>
+    <database>pentaho-instaview</database>
+    <port>50000</port>
+    <username>monetdb</username>
+    <password>Encrypted 2be98afc86aa7f2e4cb14a17edb86abd8</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>EXTRA_OPTION_INFOBRIGHT.characterEncoding</code><attribute>UTF-8</attribute></attribute>
+      <attribute><code>EXTRA_OPTION_MYSQL.defaultFetchSize</code><attribute>500</attribute></attribute>
+      <attribute><code>EXTRA_OPTION_MYSQL.useCursorFetch</code><attribute>true</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>50000</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
     <name>Hive</name>
     <server>&#x24;&#x7b;hive.hostname&#x7d;</server>
     <type>HIVE</type>
@@ -159,22 +178,22 @@
       <create_destination_folder>N</create_destination_folder>
       <fields>
         <field>
-          <source_filefolder>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;part-00000</source_filefolder>
+          <source_filefolder>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;resources&#x2f;part-00000</source_filefolder>
           <destination_filefolder>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi&#x2f;weblogs&#x2f;parse&#x2f;</destination_filefolder>
           <wildcard/>
         </field>
         <field>
-          <source_filefolder>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;part-00000</source_filefolder>
+          <source_filefolder>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;resources&#x2f;part-00000</source_filefolder>
           <destination_filefolder>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;tmp</destination_filefolder>
           <wildcard/>
         </field>
         <field>
-          <source_filefolder>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;weblogs_rebuild.txt</source_filefolder>
+          <source_filefolder>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;resources&#x2f;weblogs_rebuild.txt</source_filefolder>
           <destination_filefolder>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;user&#x2f;pdi&#x2f;weblogs&#x2f;raw</destination_filefolder>
           <wildcard/>
         </field>
         <field>
-          <source_filefolder>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;</source_filefolder>
+          <source_filefolder>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;resources</source_filefolder>
           <destination_filefolder>&#x24;&#x7b;hadoop.scheme&#x7d;&#x3a;&#x2f;&#x2f;&#x24;&#x7b;hadoop.hostname&#x7d;&#x3a;&#x24;&#x7b;hadoop.port&#x7d;&#x2f;wordcount&#x2f;input</destination_filefolder>
           <wildcard>pg.&#x2a;&#x5c;.txt</wildcard>
         </field>
@@ -387,7 +406,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;HbaseInit.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;dependencies&#x2f;HbaseInit.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -426,7 +445,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;HbaseLoad.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;dependencies&#x2f;HbaseLoad.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -459,7 +478,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;HbaseLoad2.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;dependencies&#x2f;HbaseLoad2.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -542,7 +561,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;HadoopSetPermissions.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;dependencies&#x2f;HadoopSetPermissions.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>

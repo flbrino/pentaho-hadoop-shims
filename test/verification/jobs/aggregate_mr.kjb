@@ -82,7 +82,7 @@
       <map_trans_repo_dir/>
       <map_trans_repo_file/>
       <map_trans_repo_reference/>
-      <map_trans>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;aggregate_mapper.ktr</map_trans>
+      <map_trans>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;dependencies&#x2f;aggregate_mapper.ktr</map_trans>
       <combiner_trans_repo_dir/>
       <combiner_trans_repo_file/>
       <combiner_trans_repo_reference/>
@@ -91,7 +91,7 @@
       <reduce_trans_repo_dir/>
       <reduce_trans_repo_file/>
       <reduce_trans_repo_reference/>
-      <reduce_trans>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;aggregate_reducer.ktr</reduce_trans>
+      <reduce_trans>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;dependencies&#x2f;aggregate_reducer.ktr</reduce_trans>
       <reduce_single_threaded>Y</reduce_single_threaded>
       <map_input_step_name>MapReduce Input</map_input_step_name>
       <map_output_step_name>MapReduce Output</map_output_step_name>

@@ -5,13 +5,21 @@
 ============================================================================-->
 <project name="pentaho-hadoop-shims-hdp13" basedir="." default="dist"
   xmlns:ivy="antlib:org.apache.ivy.ant" >
-    
+
   <description>
     This build file is used to create the HDP1.3 Shim module for the Big Data plugin
     and is based off Subfloor (../build-res/subfloor.xml)
   </description>
 
   <import file="../../build-res/subfloor.xml"/>
+
+  <property name="bin" value="bin" />
+  <property name="run" value="run" />
+  <property name="jobs-full" location="jobs" />
+  <property name="stage" value="${bin}/stage" />
+  <property name="run-lib" value="${run}/lib" />
+  <property name="run-libext" value="${run}/libext" />
+  <property name="run-libswt" value="${run}/libswt" />
 
 	<macrodef name="ivy-resolve">
     <attribute name="ivyfile" default="${ivyfile}" />
@@ -24,37 +32,153 @@
     </sequential>
   </macrodef>
 
-  <target name="resolve" depends="install-ivy">
-    <mkdir dir="bin/stage/pdi-ce" />
-    <mkdir dir="bin/run" />
+  <target name="resolve" depends="install-ivy,subfloor.resolve">
+    <mkdir dir="${stage}/pdi-ce" />
+    <mkdir dir="${run}" />
     <get src="${kettle.url}" dest="${subfloor.tmp.dir}/${kettle.name}" usetimestamp="true"/>
-    <ivy-resolve conf="big-data-plugin" directory="bin/stage/big-data-plugin" />
-    <ivy-resolve conf="shim" directory="bin/stage/shim" />
-    <ivy-resolve conf="big-data-samples" directory="bin/stage/big-data-samples" />
-    <ivy-resolve conf="hive-jdbc" directory="bin/stage/hive-jdbc" />
-  </target>
-
-  <target name="build" depends="resolve">
-    <unzip dest="bin/run" src="${subfloor.tmp.dir}/${kettle.name}"/>
-    <unzip dest="bin/run/plugins">
-      <fileset dir="bin/stage/big-data-plugin" />
+    <ivy-resolve conf="big-data-plugin" directory="${stage}/big-data-plugin" />
+    <ivy-resolve conf="shim" directory="${stage}/shim" />
+    <ivy-resolve conf="big-data-samples" directory="${stage}/big-data-samples" />
+    <ivy-resolve conf="hive-jdbc" directory="${stage}/hive-jdbc" />
+    <unzip dest="${run}" src="${subfloor.tmp.dir}/${kettle.name}"/>
+    <unzip dest="${run}/plugins">
+      <fileset dir="${stage}/big-data-plugin" />
     </unzip>
     <delete includeemptydirs="true">
-      <fileset dir="bin/run/plugins/pentaho-big-data-plugin/hadoop-configurations/" includes="**/*" />
+      <fileset dir="${run}/plugins/pentaho-big-data-plugin/hadoop-configurations/" includes="**/*" />
     </delete>
-    <unzip dest="bin/run/plugins/pentaho-big-data-plugin/hadoop-configurations/">
-      <fileset dir="bin/stage/shim" />
+    <unzip dest="${run}/plugins/pentaho-big-data-plugin/hadoop-configurations/">
+      <fileset dir="${stage}/shim" />
     </unzip>
-    <unzip dest="bin/run/samples">
-      <fileset dir="bin/stage/big-data-samples" />
+    <unzip dest="${run}/samples">
+      <fileset dir="${stage}/big-data-samples" />
     </unzip>
     <delete>
-      <fileset dir="bin/run/libext/JDBC" includes="pentaho-hadoop-hive-jdbc-shim-*.jar" />
+      <fileset dir="${run-libext}/JDBC" includes="pentaho-hadoop-hive-jdbc-shim-*.jar" />
     </delete>
-    <copy todir="bin/run/libext/JDBC">
-      <fileset dir="bin/stage/hive-jdbc" />
+    <copy todir="${run-libext}/JDBC">
+      <fileset dir="${stage}/hive-jdbc" />
     </copy>
-    <replace file="bin/run/plugins/pentaho-big-data-plugin/plugin.properties" token="hadoop-20" value="${shim}"/>
+    <replace file="${run}/plugins/pentaho-big-data-plugin/plugin.properties" token="hadoop-20" value="${shim}"/>
+  </target>
+
+  <target name="create-dot-classpath" depends="install-pentaho-ant-tasks,init">
+    <dot-classpath>
+      <!-- Include all lib dirs -->
+      <classpath>
+        <fileset dir="${testlib.dir}" includes="*.jar"/>
+        <fileset dir="${lib.dir}">
+          <include name="*.jar" />
+        </fileset>
+        <fileset dir="${devlib.dir}">
+          <include name="*.jar" />
+        </fileset>
+        <fileset dir="${run-lib}">
+          <include name="*.jar" />
+        </fileset>
+        <fileset dir="${run-libext}">
+          <include name="*.jar" />
+        </fileset>
+      </classpath>
+    </dot-classpath>
+  </target>
+
+  <target name="clean-all" depends="subfloor.clean-all">
+    <delete dir="${run}" />
+  </target>
+
+  <target name="compile-tests" depends="init-tests">
+    <javac destdir="${testclasses.dir}"
+           debug="true"
+           optimize="false"
+           source="${javac.source}"
+           target="${javac.target}"
+           fork="true">
+      <src path="${testsrc.dir}" />
+      <classpath>
+        <fileset dir="${testlib.dir}" includes="*.jar"/>
+        <fileset dir="${run-lib}" includes="kettle-core*.jar"/>
+        <fileset dir="${run-lib}" includes="kettle-engine*.jar"/>
+        <!-- <fileset dir="test/libext/" includes="kettle.jar"/>-->
+        <pathelement path="${testclasses.dir}"/>
+
+        <fileset dir="${run-libext}" 		includes="*.jar *.zip"/>
+        <fileset dir="${run-libext}/"	    includes="**/*.jar *.zip"/>
+        <fileset dir="${run-libswt}" 		includes="*.jar *.zip"/>
+        <fileset dir="${run-libswt}/win32/" includes="*.jar *.zip"/>
+      </classpath>
+    </javac>
+
+    <!-- Copy the non-java files from the source directory to the test classes directory
+-->
+    <copy todir="${testclasses.dir}">
+      <fileset dir="${testsrc.dir}">
+        <exclude name="**/*.java" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="test" depends="compile,compile-tests, init-test-reports" description="Execute the tests">
+    <junit maxmemory="${junit.maxmemory}"
+           fork="yes"
+           failureProperty="test.failed"
+           haltonfailure="${junit.haltonfailure}"
+           printsummary="yes"
+           forkmode="once"
+           jvm="java"
+           dir="${run}">
+      <sysproperty key="hadoop.hostname" value="${hadoop.hostname}" />
+      <sysproperty key="hadoop.port" value="${hadoop.port}" />
+      <sysproperty key="hadoop.scheme" value="${hadoop.scheme}" />
+      <sysproperty key="hive.database" value="${hive.database}" />
+      <sysproperty key="hive.hostname" value="${hive.hostname}" />
+      <sysproperty key="hive.port" value="${hive.port}" />
+      <sysproperty key="hive.type" value="${hive.type}" />
+      <sysproperty key="zookeeper.hostname" value="${zookeeper.hostname}" />
+      <sysproperty key="zookeeper.port" value="${zookeeper.port}" />
+      <sysproperty key="jobtracker.hostname" value="${jobtracker.hostname}" />
+      <sysproperty key="jobtracker.port" value="${jobtracker.port}" />
+      <sysproperty key="job.dirname" value="${jobs-full}" />
+      <sysproperty key="hadoop.mapper" value="Hadoop-InputOutput-test.ktr" />
+      <sysproperty key="job.order" value="load_wordcount.kjb" />
+      <sysproperty key="pmr-sample.jar.location" value="samples/jobs/hadoop/pentaho-mapreduce-sample.jar" />
+
+      <classpath>
+        <fileset dir="${testlib.dir}" includes="*.jar"/>
+        <fileset dir="${run-lib}" includes="kettle-core*.jar"/>
+        <fileset dir="${run-lib}" includes="kettle-engine*.jar"/>
+        <fileset dir="${run-lib}" includes="kettle-db*.jar"/>
+        <!-- <fileset dir="test/libext/" includes="kettle.jar"/>-->
+        <pathelement path="${testclasses.dir}"/>
+
+        <fileset dir="${run-libext}" 		includes="*.jar *.zip"/>
+        <fileset dir="${run-libext}/"	    includes="**/*.jar *.zip"/>
+        <fileset dir="${run-libswt}" 		includes="*.jar *.zip"/>
+        <fileset dir="${run-libswt}/win32/" includes="*.jar *.zip"/>
+      </classpath>
+
+      <sysproperty key="java.awt.headless" value="${headless.unittest}" />
+
+      <syspropertyset>
+        <propertyref prefix="junit.sysprop." />
+        <mapper type="glob" from="junit.sysprop.*" to="*"/>
+      </syspropertyset>
+      <formatter type="xml" />
+
+      <!-- <test name="${testcase}" todir="${testreports.xml.dir}" if="testcase" />-->
+      <batchtest todir="${testreports.xml.dir}">
+        <fileset dir="${testsrc.dir}" casesensitive="yes">
+          <include name="**/*Test.java" />
+        </fileset>
+      </batchtest>
+    </junit>
+
+    <junitreport todir="${testreports.html.dir}">
+      <fileset dir="${testreports.xml.dir}">
+        <include name="TEST-*.xml" />
+      </fileset>
+      <report format="frames" todir="${testreports.html.dir}" />
+    </junitreport>
   </target>
 
   <target name="load">
