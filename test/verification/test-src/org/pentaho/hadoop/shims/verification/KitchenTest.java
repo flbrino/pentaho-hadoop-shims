@@ -18,6 +18,9 @@ import org.junit.runners.Parameterized.Parameters;
 import org.pentaho.di.core.KettleEnvironment;
 import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.core.exception.KettleXMLException;
+import org.pentaho.di.core.logging.CentralLogStore;
+import org.pentaho.di.core.logging.LogChannel;
+import org.pentaho.di.core.logging.LogChannelInterface;
 import org.pentaho.di.core.parameters.UnknownParamException;
 import org.pentaho.di.job.Job;
 import org.pentaho.di.job.JobMeta;
@@ -77,10 +80,13 @@ public class KitchenTest {
 
   @Test
   public void runTest() throws KettleXMLException, UnknownParamException {
+    CentralLogStore.init();
+    LogChannelInterface log = new LogChannel("ShimUnittest");
     JobMeta jobMeta = new JobMeta(file.getAbsolutePath(), null, null);
     Job job = new Job(null, jobMeta);
     jobMeta.setArguments(null);
     job.initializeVariablesFrom(null);
+    job.setLogLevel(log.getLogLevel());
     jobMeta.setInternalKettleVariables(job);
 
     for (String parameterName : jobMeta.listParameters()) {

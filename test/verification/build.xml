@@ -55,6 +55,7 @@
     </unzip>
     <delete>
       <fileset dir="${run-libext}/JDBC" includes="pentaho-hadoop-hive-jdbc-shim-*.jar" />
+      <fileset dir="${run-libext}" includes="junit-*.jar" />
     </delete>
     <copy todir="${run-libext}/JDBC">
       <fileset dir="${stage}/hive-jdbc" />
@@ -118,7 +119,7 @@
     </copy>
   </target>
 
-  <target name="test" depends="compile,compile-tests, init-test-reports" description="Execute the tests">
+  <target name="test" depends="compile,compile-tests,init-test-reports" description="Execute the tests">
     <junit maxmemory="${junit.maxmemory}"
            fork="yes"
            failureProperty="test.failed"
@@ -182,8 +183,8 @@
   </target>
 
   <target name="load">
-    <chmod file="bin/run/kitchen.sh" perm="a+x" />
-    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+    <chmod file="${run}/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="${run}" failonerror="true">
       <arg value="-norep" />
       <arg value="-level Debug" />
       <arg value="-file" />
@@ -201,8 +202,8 @@
   </target>
 
   <target name="pig">
-    <chmod file="bin/run/kitchen.sh" perm="a+x" />
-    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+    <chmod file="${run}/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="${run}" failonerror="true">
       <arg value="-norep" />
       <arg value="-file" />
       <arg path="jobs/aggregate_pig.kjb" />
@@ -215,8 +216,8 @@
   </target>
 
   <target name="mr">
-    <chmod file="bin/run/kitchen.sh" perm="a+x" />
-    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+    <chmod file="${run}/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="${run}" failonerror="true">
       <arg value="-norep" />
       <arg value="-file" />
       <arg path="jobs/aggregate_mr.kjb" />
@@ -228,8 +229,8 @@
   </target>
 
   <target name="pmr-wc">
-    <chmod file="bin/run/kitchen.sh" perm="a+x" />
-    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+    <chmod file="${run}/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="${run}" failonerror="true">
       <arg value="-norep" />
       <arg value="-file" />
       <arg path="jobs/Pentaho MapReduce - wordcount - test.kjb" />
@@ -241,8 +242,8 @@
   </target>
 
   <target name="pmr-hbase">
-    <chmod file="bin/run/kitchen.sh" perm="a+x" />
-    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+    <chmod file="${run}/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="${run}" failonerror="true">
       <arg value="-norep" />
       <arg value="-file" />
       <arg path="jobs/Pentaho MapReduce - HBase - test.kjb" />
@@ -256,8 +257,8 @@
   </target>
 
   <target name="pmr-simple">
-    <chmod file="bin/run/kitchen.sh" perm="a+x" />
-    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+    <chmod file="${run}/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="${run}" failonerror="true">
       <arg value="-norep" />
       <arg value="-file" />
       <arg path="jobs/Hadoop Job Executor simple.kjb" />
@@ -271,8 +272,8 @@
   </target>
 
   <target name="pmr-hadoop-inputoutput">
-    <chmod file="bin/run/kitchen.sh" perm="a+x" />
-    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+    <chmod file="${run}/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="${run}" failonerror="true">
       <arg value="-norep" />
       <arg value="-file" />
       <arg path="jobs/Pentaho MapReduce - Hadoop - test.kjb" />
@@ -286,8 +287,8 @@
   </target>
 
   <target name="hive-input">
-    <chmod file="bin/run/kitchen.sh" perm="a+x" />
-    <exec executable="./kitchen.sh" dir="bin/run" failonerror="true">
+    <chmod file="${run}/kitchen.sh" perm="a+x" />
+    <exec executable="./kitchen.sh" dir="${run}" failonerror="true">
       <arg value="-norep" />
       <arg value="-file" />
       <arg path="jobs/Hive-Input-test.kjb" />
