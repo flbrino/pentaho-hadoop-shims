@@ -43,6 +43,10 @@
     </dependency>
 
     <dependency conf="client->default" org="com.google.guava" name="guava" rev="${dependency.guava.revision}" transitive="false" />
+    <dependency conf="client->default" org="org.apache.hadoop" name="hadoop-intel-core" rev="${dependency.hadoop.revision}" transitive="false" />
+
+    <dependency conf="pmr->default" org="org.apache.hbase" name="hbase-intel" rev="${dependency.hbase-intel.revision}" transitive="false" />
+    <dependency conf="pmr->default" org="org.apache.zookeeper" name="zookeeper-intel" rev="${dependency.zookeeper-intel.revision}" transitive="false" />
 
     <dependency org="pentaho" name="pentaho-hdfs-vfs" rev="${dependency.pentaho-hdfs-vfs.revision}" transitive="false" changing="true"/>
     
@@ -55,6 +59,7 @@
     <dependency org="org.apache.hive" name="hive-exec" rev="${dependency.hive-jdbc.revision}" changing="true" transitive="false" />
     <dependency org="org.apache.hive" name="hive-service" rev="${dependency.hive-jdbc.revision}" changing="true" transitive="false" />
     <dependency org="org.apache.hive" name="hive-metastore" rev="${dependency.hive-jdbc.revision}" changing="true" transitive="false" />
+    <dependency org="org.apache.pig" name="pig-intel-core" rev="${dependency.pig.revision}" changing="true" transitive="false" />
     <dependency org="org.apache.thrift" name="libthrift" rev="${dependency.apache-thrift.revision}" transitive="false" />
     <dependency org="org.apache.thrift" name="libfb303" rev="${dependency.apache-thrift.revision}" transitive="false" />
     

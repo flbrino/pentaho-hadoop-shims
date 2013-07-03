@@ -16,10 +16,4 @@
   <target name="clean-jars" depends="subfloor.clean-jars" >
     <delete dir="${lib.provided.dir}"/>
   </target>
-
-  <target name="resolve" depends="subfloor.resolve">
-    <copy todir="lib" >
-      <fileset dir="lib-dist" />
-    </copy>
-  </target>
 </project>
