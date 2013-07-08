@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
+<ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven" xmlns:e="http://ant.apache.org/ivy/extra">
   <info organisation="${ivy.artifact.group}" module="${ivy.artifact.id}" revision="${project.revision}" />
 
   <configurations>
@@ -45,6 +45,7 @@
       <exclude name="junit" />
       <exclude name="s.*" matcher="regexp" />
     </dependency>
+    <dependency conf="client->default" org="org.apache.hadoop" name="hadoop-core-hdp" rev="${dependency.hadoop-hdp.revision}" transitive="false" />
 
     <dependency org="org.apache.thrift" name="libthrift" rev="${dependency.thrift.revision}" transitive="false" />
     <dependency org="org.apache.thrift" name="libfb303" rev="${dependency.thrift.revision}" transitive="false" />
@@ -56,6 +57,24 @@
     <dependency conf="test->default" org="junit" name="junit" rev="4.5"/>
     <dependency conf="test->default" org="org.safehaus.jug" name="jug-lgpl" rev="2.0.0" />
     <dependency conf="test->default" org="pentaho" name="pentaho-hadoop-shims-api-test" rev="${project.revision}" changing="true"/>
+
+    <dependency org="org.apache.hive" name="hive-cli-hdp" rev="${dependency.hive-hdp.revision}" transitive="false" />
+    <dependency org="org.apache.hive" name="hive-common-hdp" rev="${dependency.hive-hdp.revision}" transitive="false" />
+    <dependency org="org.apache.hive" name="hive-contrib-hdp" rev="${dependency.hive-hdp.revision}" transitive="false" />
+    <dependency org="org.apache.hive" name="hive-exec-hdp" rev="${dependency.hive-hdp.revision}" transitive="false" />
+    <dependency org="org.apache.hive" name="hive-hbase-handler-hdp" rev="${dependency.hive-hdp.revision}" transitive="false" />
+    <dependency org="org.apache.hive" name="hive-hwi-hdp" rev="${dependency.hive-hdp.revision}" transitive="false" />
+    <dependency org="org.apache.hive" name="hive-jdbc-hdp" rev="${dependency.hive-hdp.revision}" transitive="false" />
+    <dependency org="org.apache.hive" name="hive-metastore-hdp" rev="${dependency.hive-hdp.revision}" transitive="false" />
+    <dependency org="org.apache.hive" name="hive-serde-hdp" rev="${dependency.hive-hdp.revision}" transitive="false" />
+    <dependency org="org.apache.hive" name="hive-service-hdp" rev="${dependency.hive-hdp.revision}" transitive="false" />
+    <dependency org="org.apache.pig" name="pig-hdp" rev="${dependency.pig-hdp.revision}" transitive="false" />
+    <dependency org="org.apache.sqoop" name="sqoop-hdp" rev="${dependency.sqoop-hdp.revision}" transitive="false" />
+
+    <dependency conf="pmr->default" org="org.apache.hbase" name="hbase-hdp" rev="${dependency.hbase-hdp.revision}" transitive="false" >
+      <artifact name="hbase-hdp" e:classifier="security" ext="jar"/>
+    </dependency>
+    <dependency conf="pmr->default" org="org.apache.zookeeper" name="zookeeper-hdp" rev="${dependency.zookeeper-hdp.revision}" transitive="false" />
 
     <!-- Exclude log4j from default libraries - it's brought in transitively through many of the Hadoop dependencies and should not be included -->
     <exclude org="log4j" module="log4j" conf="default" />
