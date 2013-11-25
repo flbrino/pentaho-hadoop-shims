@@ -45,10 +45,12 @@
     <!--<dependency org="org.apache.hive" name="hive-builtins" rev="${dependency.cloudera-hive-jdbc.revision}" changing="true"/>-->
     <dependency org="org.apache.hive" name="hive-exec" rev="${dependency.cloudera-hive-jdbc.revision}" changing="true">
         <exclude module="datanucleus-core"/> 
+        <!-- <exclude module="derby"/> -->
     </dependency>
     <dependency org="org.apache.hive" name="hive-service" rev="${dependency.cloudera-hive-jdbc.revision}" changing="true"/>
     <dependency org="org.apache.hive" name="hive-serde" rev="${dependency.cloudera-hive-jdbc.revision}" changing="true"/>
     <dependency org="org.apache.hive" name="hive-metastore" rev="${dependency.cloudera-hive-jdbc.revision}" changing="true">
+        <!-- <exclude module="derby"/> -->
       <!-- <exclude module="datanucleus-core" /> -->
     </dependency>
     <!--  explicit dependency on datanucleus-core as it is newer than the one brought in by Hive -->
