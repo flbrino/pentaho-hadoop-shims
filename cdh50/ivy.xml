@@ -26,6 +26,7 @@
     <dependency conf="provided->default" org="commons-lang" name="commons-lang" rev="${dependency.commons-lang.revision}" transitive="false"/>
 
     <dependency conf="client->default" org="org.apache.hadoop" name="hadoop-client" rev="${dependency.hadoop.revision}"/>
+    <dependency conf="client->default" org="org.apache.hadoop" name="hadoop-core" rev="${dependency.hadoop.mr1.revision}" transitive="false"/>
 
     <dependency conf="pmr->default" org="org.apache.hbase" name="hbase-client" rev="${dependency.apache-hbase.revision}" transitive="false"/>
     <dependency conf="pmr->default" org="org.apache.hbase" name="hbase-hadoop-compat" rev="${dependency.apache-hbase.revision}" transitive="false"/>
