@@ -20,7 +20,7 @@
 *
 ******************************************************************************/
 
-package org.pentaho.hadoop.shim.cdh42;
+package org.pentaho.hadoop.shim.cdh50;
 
 import java.util.concurrent.Callable;
 

@@ -20,7 +20,7 @@
 *
 ******************************************************************************/
 
-package org.pentaho.hadoop.shim.cdh42;
+package org.pentaho.hadoop.shim.cdh50;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -30,7 +30,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.junit.Test;
-import org.pentaho.hadoop.shim.cdh42.ClassPathModifyingSqoopShim;
+import org.pentaho.hadoop.shim.cdh50.ClassPathModifyingSqoopShim;
 
 public class ClassPathModifyingSqoopShimTest {
   private static final String TEST_CLASS_PATH = "testing";

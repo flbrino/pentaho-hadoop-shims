@@ -3,11 +3,11 @@
   
   See ../build-res/subfloor.xml for more details
 ============================================================================-->
-<project name="pentaho-hadoop-shims-cdh42" basedir="." default="dist"
+<project name="pentaho-hadoop-shims-cdh50" basedir="." default="dist"
   xmlns:ivy="antlib:org.apache.ivy.ant" >
   
   <description>
-    This build file is used to create the CDH4.2 Shim module for the Big Data plugin
+    This build file is used to create the CDH5.0 Shim module for the Big Data plugin
     and is based off Subfloor (../build-res/subfloor.xml)
   </description>
 

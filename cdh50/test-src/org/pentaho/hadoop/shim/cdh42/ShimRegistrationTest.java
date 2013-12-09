@@ -20,7 +20,7 @@
 *
 ******************************************************************************/
 
-package org.pentaho.hadoop.shim.cdh42;
+package org.pentaho.hadoop.shim.cdh50;
 
 import static org.junit.Assert.assertTrue;
 
@@ -47,7 +47,7 @@ public class ShimRegistrationTest {
   public void hadoopShimRegistered() {
     ServiceLoader<org.pentaho.hadoop.shim.spi.HadoopShim> l = ServiceLoader.load(org.pentaho.hadoop.shim.spi.HadoopShim.class);
     org.pentaho.hadoop.shim.spi.HadoopShim s = l.iterator().next();
-    assertTrue(org.pentaho.hadoop.shim.cdh42.HadoopShim.class.isAssignableFrom(s.getClass()));
+    assertTrue(org.pentaho.hadoop.shim.cdh50.HadoopShim.class.isAssignableFrom(s.getClass()));
   }
   
   /**
@@ -67,7 +67,7 @@ public class ShimRegistrationTest {
   public void sqoopShimRegistered() {
     ServiceLoader<SqoopShim> l = ServiceLoader.load(SqoopShim.class);
     SqoopShim s = l.iterator().next();
-    assertTrue(org.pentaho.hadoop.shim.cdh42.ClassPathModifyingSqoopShim.class.equals(s.getClass()));
+    assertTrue(org.pentaho.hadoop.shim.cdh50.ClassPathModifyingSqoopShim.class.equals(s.getClass()));
   }
   
   /**
@@ -77,7 +77,7 @@ public class ShimRegistrationTest {
   public void snappyShimRegistered() {
     ServiceLoader<SnappyShim> l = ServiceLoader.load(SnappyShim.class);
     SnappyShim s = l.iterator().next();
-    assertTrue(org.pentaho.hadoop.shim.cdh42.SnappyShim.class.isAssignableFrom(s.getClass()));
+    assertTrue(org.pentaho.hadoop.shim.cdh50.SnappyShim.class.isAssignableFrom(s.getClass()));
   }
 
   /**
