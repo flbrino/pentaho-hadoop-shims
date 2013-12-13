@@ -41,6 +41,10 @@ public class HadoopShim extends CommonHadoopShim {
   static {
     JDBC_DRIVER_MAP.put("hive2",org.apache.hive.jdbc.HiveDriver.class); 
   }
+
+  public HadoopShim() {
+    System.setProperty("mapr.library.flatclass", "");
+  }
   
   @Override
   public String[] getNamenodeConnectionInfo(Configuration c) {
