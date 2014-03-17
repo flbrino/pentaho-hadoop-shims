@@ -14,11 +14,14 @@ import org.pentaho.di.core.auth.KerberosAuthenticationProvider;
 import org.pentaho.di.core.auth.core.AuthenticationConsumer;
 import org.pentaho.di.core.auth.core.AuthenticationConsumptionException;
 import org.pentaho.di.core.auth.kerberos.KerberosUtil;
+import org.pentaho.hadoop.shim.mapr31.authorization.HadoopAuthorizationService;
+import org.pentaho.hadoop.shim.mapr31.authorization.UserSpoofingHadoopAuthorizationService;
 
 import com.mapr.fs.proto.Security.TicketAndKey;
 import com.mapr.login.client.MapRLoginHttpsClient;
 
-public class MapRSuperUserKerberosConsumer implements AuthenticationConsumer<TicketAndKey, KerberosAuthenticationProvider> {
+public class MapRSuperUserKerberosConsumer implements
+    AuthenticationConsumer<HadoopAuthorizationService, KerberosAuthenticationProvider> {
   @AuthenticationConsumerPlugin( id = "MapRSuperUserKerberosConsumer", name = "MapRSuperUserKerberosConsumer" )
   public static class MapRSuperUserKerberosConsumerType implements AuthenticationConsumerType {
 
@@ -36,12 +39,12 @@ public class MapRSuperUserKerberosConsumer implements AuthenticationConsumer<Tic
   private final KerberosUtil kerberosUtil;
 
   public MapRSuperUserKerberosConsumer( Void client ) {
-    System.setProperty( "mapr.library.flatclass", "" );
+    System.setProperty("mapr.library.flatclass", "");
     this.kerberosUtil = new KerberosUtil();
   }
 
   @Override
-  public TicketAndKey consume( KerberosAuthenticationProvider authenticationProvider )
+  public HadoopAuthorizationService consume( KerberosAuthenticationProvider authenticationProvider )
     throws AuthenticationConsumptionException {
     final LoginContext loginContext;
     try {
@@ -63,13 +66,14 @@ public class MapRSuperUserKerberosConsumer implements AuthenticationConsumer<Tic
     }
     try {
       loginContext.login();
-      return Subject.doAs( loginContext.getSubject(), new PrivilegedExceptionAction<TicketAndKey>() {
+      Subject.doAs( loginContext.getSubject(), new PrivilegedExceptionAction<TicketAndKey>() {
 
         @Override
         public TicketAndKey run() throws Exception {
           return new MapRLoginHttpsClient().getMapRCredentialsViaKerberos( 1209600000L );
         }
       } );
+      return new UserSpoofingHadoopAuthorizationService();
     } catch ( LoginException e ) {
       throw new AuthenticationConsumptionException( e );
     } catch ( PrivilegedActionException e ) {

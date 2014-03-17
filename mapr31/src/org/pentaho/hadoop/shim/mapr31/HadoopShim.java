@@ -22,7 +22,6 @@
 
 package org.pentaho.hadoop.shim.mapr31;
 
-import java.net.URLClassLoader;
 import java.util.List;
 import java.util.Properties;
 
@@ -46,6 +45,7 @@ import org.pentaho.hadoop.shim.mapr31.authentication.MapRSuperUserNoAuthConsumer
 import org.pentaho.hdfs.vfs.MapRFileProvider;
 
 import com.mapr.fs.proto.Security.TicketAndKey;
+import org.pentaho.hdfs.vfs.MapRFileProvider;
 
 public class HadoopShim extends CommonHadoopShim {
   protected static final String SUPER_USER = "authentication.superuser.provider";

@@ -5,11 +5,11 @@ import org.pentaho.di.core.auth.AuthenticationConsumerType;
 import org.pentaho.di.core.auth.NoAuthenticationAuthenticationProvider;
 import org.pentaho.di.core.auth.core.AuthenticationConsumer;
 import org.pentaho.di.core.auth.core.AuthenticationConsumptionException;
-
-import com.mapr.fs.proto.Security.TicketAndKey;
+import org.pentaho.hadoop.shim.mapr31.authorization.HadoopAuthorizationService;
+import org.pentaho.hadoop.shim.mapr31.authorization.NoOpHadoopAuthorizationService;
 
 public class MapRSuperUserNoAuthConsumer implements
-    AuthenticationConsumer<TicketAndKey, NoAuthenticationAuthenticationProvider> {
+    AuthenticationConsumer<HadoopAuthorizationService, NoAuthenticationAuthenticationProvider> {
   @AuthenticationConsumerPlugin( id = "MapRSuperUserNoAuthConsumer", name = "MapRSuperUserNoAuthConsumer" )
   public static class MapRSuperUserNoAuthConsumerType implements AuthenticationConsumerType {
 
@@ -29,8 +29,8 @@ public class MapRSuperUserNoAuthConsumer implements
   }
 
   @Override
-  public TicketAndKey consume( NoAuthenticationAuthenticationProvider authenticationProvider )
+  public HadoopAuthorizationService consume( NoAuthenticationAuthenticationProvider authenticationProvider )
     throws AuthenticationConsumptionException {
-    return null;
+    return new NoOpHadoopAuthorizationService();
   }
 }
