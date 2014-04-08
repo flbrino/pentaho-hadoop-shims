@@ -30,6 +30,7 @@ import org.pentaho.di.core.auth.AuthenticationPersistenceManager;
 import org.pentaho.di.core.auth.core.AuthenticationConsumptionException;
 import org.pentaho.di.core.auth.core.AuthenticationManager;
 import org.pentaho.di.core.auth.core.AuthenticationPerformer;
+import org.pentaho.di.core.auth.core.AuthenticationConsumptionException;
 import org.pentaho.di.core.lifecycle.LifecycleException;
 import org.pentaho.hadoop.shim.HadoopConfiguration;
 import org.pentaho.hadoop.shim.HadoopConfigurationFileSystemManager;
@@ -38,9 +39,14 @@ import org.pentaho.hadoop.shim.common.CommonHadoopShim;
 import org.pentaho.hadoop.shim.mapr31.authentication.MapRSuperUserKerberosConsumer.MapRSuperUserKerberosConsumerType;
 import org.pentaho.hadoop.shim.mapr31.authentication.MapRSuperUserNoAuthConsumer.MapRSuperUserNoAuthConsumerType;
 import org.pentaho.hdfs.vfs.MapRFileProvider;
+import org.pentaho.hadoop.shim.mapr31.authentication.PropertyAuthenticationProviderParser;
+import org.pentaho.hadoop.shim.mapr31.authentication.MapRSuperUserKerberosConsumer.MapRSuperUserKerberosConsumerType;
+import org.pentaho.hadoop.shim.mapr31.authentication.MapRSuperUserNoAuthConsumer.MapRSuperUserNoAuthConsumerType;
+import org.pentaho.hdfs.vfs.MapRFileProvider;
 
 public class HadoopShim extends CommonHadoopShim {
   protected static final String SUPER_USER = "authentication.superuser.provider";
+  protected static final String PROVIDER_LIST = "authentication.provider.list";
   protected static final String DEFAULT_CLUSTER = "/";
   protected static final String MFS_SCHEME = "maprfs://";
   protected static final String[] EMPTY_CONNECTION_INFO = new String[2];
@@ -106,6 +112,7 @@ public class HadoopShim extends CommonHadoopShim {
         MapRSuperUserNoAuthConsumerType.class );
     if ( config.getConfigProperties().containsKey( SUPER_USER ) ) {
       AuthenticationManager manager = AuthenticationPersistenceManager.getAuthenticationManager();
+      new PropertyAuthenticationProviderParser( config.getConfigProperties(), manager ).process( PROVIDER_LIST );
       AuthenticationPerformer<Void, Void> performer =
           manager.getAuthenticationPerformer( Void.class, Void.class, config
               .getConfigProperties().getProperty( SUPER_USER ) );
