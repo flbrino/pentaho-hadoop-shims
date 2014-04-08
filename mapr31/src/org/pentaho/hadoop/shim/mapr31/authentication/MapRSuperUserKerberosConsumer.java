@@ -7,6 +7,7 @@ import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
+import org.pentaho.di.core.Const;
 import org.pentaho.di.core.auth.AuthenticationConsumerPlugin;
 import org.pentaho.di.core.auth.AuthenticationConsumerType;
 import org.pentaho.di.core.auth.KerberosAuthenticationProvider;
@@ -17,8 +18,7 @@ import org.pentaho.di.core.auth.kerberos.KerberosUtil;
 import com.mapr.fs.proto.Security.TicketAndKey;
 import com.mapr.login.client.MapRLoginHttpsClient;
 
-public class MapRSuperUserKerberosConsumer implements
-    AuthenticationConsumer<Void, KerberosAuthenticationProvider> {
+public class MapRSuperUserKerberosConsumer implements AuthenticationConsumer<Void, KerberosAuthenticationProvider> {
   @AuthenticationConsumerPlugin( id = "MapRSuperUserKerberosConsumer", name = "MapRSuperUserKerberosConsumer" )
   public static class MapRSuperUserKerberosConsumerType implements AuthenticationConsumerType {
 
@@ -36,7 +36,7 @@ public class MapRSuperUserKerberosConsumer implements
   private final KerberosUtil kerberosUtil;
 
   public MapRSuperUserKerberosConsumer( Void client ) {
-    System.setProperty("mapr.library.flatclass", "");
+    System.setProperty( "mapr.library.flatclass", "" );
     this.kerberosUtil = new KerberosUtil();
   }
 
@@ -45,8 +45,8 @@ public class MapRSuperUserKerberosConsumer implements
     throws AuthenticationConsumptionException {
     final LoginContext loginContext;
     try {
-      if ( authenticationProvider.isUseExternalCredentials() ) {
-        if ( authenticationProvider.isUseKeytab() ) {
+      if ( Const.isEmpty( authenticationProvider.getPassword() ) ) {
+        if ( Const.isEmpty( authenticationProvider.getKeytabLocation() ) ) {
           loginContext =
               kerberosUtil.getLoginContextFromKeytab( authenticationProvider.getPrincipal(), authenticationProvider
                   .getKeytabLocation() );
