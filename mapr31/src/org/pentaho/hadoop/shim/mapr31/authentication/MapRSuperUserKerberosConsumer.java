@@ -18,7 +18,7 @@ import org.pentaho.di.core.auth.kerberos.KerberosUtil;
 import com.mapr.fs.proto.Security.TicketAndKey;
 import com.mapr.login.client.MapRLoginHttpsClient;
 
-public class MapRSuperUserKerberosConsumer implements AuthenticationConsumer<Void, KerberosAuthenticationProvider> {
+public class MapRSuperUserKerberosConsumer implements AuthenticationConsumer<TicketAndKey, KerberosAuthenticationProvider> {
   @AuthenticationConsumerPlugin( id = "MapRSuperUserKerberosConsumer", name = "MapRSuperUserKerberosConsumer" )
   public static class MapRSuperUserKerberosConsumerType implements AuthenticationConsumerType {
 
@@ -41,7 +41,7 @@ public class MapRSuperUserKerberosConsumer implements AuthenticationConsumer<Voi
   }
 
   @Override
-  public Void consume( KerberosAuthenticationProvider authenticationProvider )
+  public TicketAndKey consume( KerberosAuthenticationProvider authenticationProvider )
     throws AuthenticationConsumptionException {
     final LoginContext loginContext;
     try {
@@ -63,14 +63,13 @@ public class MapRSuperUserKerberosConsumer implements AuthenticationConsumer<Voi
     }
     try {
       loginContext.login();
-      Subject.doAs( loginContext.getSubject(), new PrivilegedExceptionAction<TicketAndKey>() {
+      return Subject.doAs( loginContext.getSubject(), new PrivilegedExceptionAction<TicketAndKey>() {
 
         @Override
         public TicketAndKey run() throws Exception {
           return new MapRLoginHttpsClient().getMapRCredentialsViaKerberos( 1209600000L );
         }
       } );
-      return null;
     } catch ( LoginException e ) {
       throw new AuthenticationConsumptionException( e );
     } catch ( PrivilegedActionException e ) {

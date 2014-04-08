@@ -44,6 +44,8 @@ import org.pentaho.hadoop.shim.mapr31.authentication.MapRSuperUserKerberosConsum
 import org.pentaho.hadoop.shim.mapr31.authentication.MapRSuperUserNoAuthConsumer.MapRSuperUserNoAuthConsumerType;
 import org.pentaho.hdfs.vfs.MapRFileProvider;
 
+import com.mapr.fs.proto.Security.TicketAndKey;
+
 public class HadoopShim extends CommonHadoopShim {
   protected static final String SUPER_USER = "authentication.superuser.provider";
   protected static final String PROVIDER_LIST = "authentication.provider.list";
@@ -113,8 +115,8 @@ public class HadoopShim extends CommonHadoopShim {
     if ( config.getConfigProperties().containsKey( SUPER_USER ) ) {
       AuthenticationManager manager = AuthenticationPersistenceManager.getAuthenticationManager();
       new PropertyAuthenticationProviderParser( config.getConfigProperties(), manager ).process( PROVIDER_LIST );
-      AuthenticationPerformer<Void, Void> performer =
-          manager.getAuthenticationPerformer( Void.class, Void.class, config
+      AuthenticationPerformer<TicketAndKey, Void> performer =
+          manager.getAuthenticationPerformer( TicketAndKey.class, Void.class, config
               .getConfigProperties().getProperty( SUPER_USER ) );
       if ( performer == null ) {
         throw new LifecycleException( "Unable to find relevant provider for MapR super user (id of "

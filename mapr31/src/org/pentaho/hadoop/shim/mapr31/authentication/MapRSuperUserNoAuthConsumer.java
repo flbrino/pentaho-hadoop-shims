@@ -6,8 +6,10 @@ import org.pentaho.di.core.auth.NoAuthenticationAuthenticationProvider;
 import org.pentaho.di.core.auth.core.AuthenticationConsumer;
 import org.pentaho.di.core.auth.core.AuthenticationConsumptionException;
 
+import com.mapr.fs.proto.Security.TicketAndKey;
+
 public class MapRSuperUserNoAuthConsumer implements
-    AuthenticationConsumer<Void, NoAuthenticationAuthenticationProvider> {
+    AuthenticationConsumer<TicketAndKey, NoAuthenticationAuthenticationProvider> {
   @AuthenticationConsumerPlugin( id = "MapRSuperUserNoAuthConsumer", name = "MapRSuperUserNoAuthConsumer" )
   public static class MapRSuperUserNoAuthConsumerType implements AuthenticationConsumerType {
 
@@ -27,7 +29,7 @@ public class MapRSuperUserNoAuthConsumer implements
   }
 
   @Override
-  public Void consume( NoAuthenticationAuthenticationProvider authenticationProvider )
+  public TicketAndKey consume( NoAuthenticationAuthenticationProvider authenticationProvider )
     throws AuthenticationConsumptionException {
     return null;
   }
