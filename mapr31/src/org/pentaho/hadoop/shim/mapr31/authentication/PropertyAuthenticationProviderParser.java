@@ -9,6 +9,7 @@ import org.apache.commons.lang.ClassUtils;
 import org.apache.log4j.Logger;
 import org.pentaho.di.core.auth.core.AuthenticationManager;
 import org.pentaho.di.core.auth.core.AuthenticationProvider;
+import org.pentaho.di.core.encryption.Encr;
 
 public class PropertyAuthenticationProviderParser {
   public static interface AuthenticationProviderInstantiator {
@@ -73,7 +74,7 @@ public class PropertyAuthenticationProviderParser {
             propName += method.getName().substring( 4 );
           }
           if ( properties.containsKey( propName ) ) {
-            String strValue = properties.getProperty( propName );
+            String strValue = Encr.decryptPasswordOptionallyEncrypted( properties.getProperty( propName ) );
             Object actualValue = null;
             Class<?> argType = method.getParameterTypes()[0];
             if ( argType.isPrimitive() ) {
