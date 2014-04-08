@@ -24,6 +24,7 @@ package org.pentaho.hadoop.shim.mapr31;
 
 import java.net.URLClassLoader;
 import java.util.List;
+import java.util.Properties;
 
 import org.pentaho.di.core.auth.AuthenticationConsumerPluginType;
 import org.pentaho.di.core.auth.AuthenticationPersistenceManager;
@@ -52,6 +53,7 @@ public class HadoopShim extends CommonHadoopShim {
   protected static final String DEFAULT_CLUSTER = "/";
   protected static final String MFS_SCHEME = "maprfs://";
   protected static final String[] EMPTY_CONNECTION_INFO = new String[2];
+  private Properties properties;
 
   static {
     JDBC_DRIVER_MAP.put("hive2",org.apache.hive.jdbc.HiveDriver.class); 
@@ -112,6 +114,7 @@ public class HadoopShim extends CommonHadoopShim {
         MapRSuperUserKerberosConsumerType.class );
     AuthenticationConsumerPluginType.getInstance().registerPlugin( (URLClassLoader) getClass().getClassLoader(),
         MapRSuperUserNoAuthConsumerType.class );
+    properties = config.getConfigProperties();
     if ( config.getConfigProperties().containsKey( SUPER_USER ) ) {
       AuthenticationManager manager = AuthenticationPersistenceManager.getAuthenticationManager();
       new PropertyAuthenticationProviderParser( config.getConfigProperties(), manager ).process( PROVIDER_LIST );
