@@ -41,7 +41,7 @@
     <dependency org="log4j" name="log4j" rev="1.2.14" />
     <dependency org="commons-lang" name="commons-lang" rev="${dependency.commons-lang.revision}" transitive="false"/>
 
-    <dependency org="org.apache.hadoop" name="hadoop-core" rev="${dependency.hadoop.revision}" transitive="true">
+    <dependency org="org.apache.hadoop" name="hadoop-core" rev="${dependency.hadoop.revision}" transitive="true" conf="default">
       <exclude org="junit"/>
       <exclude org="ant"/>
     </dependency>

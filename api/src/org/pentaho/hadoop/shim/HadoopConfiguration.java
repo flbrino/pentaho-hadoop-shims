@@ -196,4 +196,8 @@ public class HadoopConfiguration {
   public String toString() {
     return getIdentifier();
   }
+  
+  public List<PentahoHadoopShim> getAvailableShims() {
+    return availableShims;
+  }
 }

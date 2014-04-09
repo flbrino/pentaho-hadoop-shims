@@ -15,6 +15,7 @@ import org.pentaho.di.core.auth.core.AuthenticationConsumer;
 import org.pentaho.di.core.auth.core.AuthenticationConsumptionException;
 import org.pentaho.di.core.auth.kerberos.KerberosUtil;
 import org.pentaho.hadoop.shim.mapr31.authorization.HadoopAuthorizationService;
+import org.pentaho.hadoop.shim.mapr31.authorization.UserSpoofingHadoopAuthorizationCallable;
 import org.pentaho.hadoop.shim.mapr31.authorization.UserSpoofingHadoopAuthorizationService;
 
 import com.mapr.fs.proto.Security.TicketAndKey;
@@ -44,40 +45,49 @@ public class MapRSuperUserKerberosConsumer implements
   }
 
   @Override
-  public HadoopAuthorizationService consume( KerberosAuthenticationProvider authenticationProvider )
+  public HadoopAuthorizationService consume( final KerberosAuthenticationProvider authenticationProvider )
     throws AuthenticationConsumptionException {
-    final LoginContext loginContext;
-    try {
-      if ( Const.isEmpty( authenticationProvider.getPassword() ) ) {
-        if ( Const.isEmpty( authenticationProvider.getKeytabLocation() ) ) {
-          loginContext =
-              kerberosUtil.getLoginContextFromKeytab( authenticationProvider.getPrincipal(), authenticationProvider
-                  .getKeytabLocation() );
-        } else {
-          loginContext = kerberosUtil.getLoginContextFromKerberosCache( authenticationProvider.getPrincipal() );
-        }
-      } else {
-        loginContext =
-            kerberosUtil.getLoginContextFromUsernamePassword( authenticationProvider.getPrincipal(),
-                authenticationProvider.getPassword() );
-      }
-    } catch ( LoginException e ) {
-      throw new AuthenticationConsumptionException( e );
-    }
-    try {
-      loginContext.login();
-      Subject.doAs( loginContext.getSubject(), new PrivilegedExceptionAction<TicketAndKey>() {
+    UserSpoofingHadoopAuthorizationCallable userSpoofingHadoopAuthorizationCallable =
+        new UserSpoofingHadoopAuthorizationCallable() {
 
-        @Override
-        public TicketAndKey run() throws Exception {
-          return new MapRLoginHttpsClient().getMapRCredentialsViaKerberos( 1209600000L );
-        }
-      } );
-      return new UserSpoofingHadoopAuthorizationService();
-    } catch ( LoginException e ) {
-      throw new AuthenticationConsumptionException( e );
-    } catch ( PrivilegedActionException e ) {
-      throw new AuthenticationConsumptionException( e );
-    }
+          @Override
+          public TicketAndKey call() throws AuthenticationConsumptionException {
+
+            System.setProperty( "hadoop.login", "hadoop_default" );
+            final LoginContext loginContext;
+            try {
+              if ( Const.isEmpty( authenticationProvider.getPassword() ) ) {
+                if ( Const.isEmpty( authenticationProvider.getKeytabLocation() ) ) {
+                  loginContext =
+                      kerberosUtil.getLoginContextFromKeytab( authenticationProvider.getPrincipal(),
+                          authenticationProvider.getKeytabLocation() );
+                } else {
+                  loginContext = kerberosUtil.getLoginContextFromKerberosCache( authenticationProvider.getPrincipal() );
+                }
+              } else {
+                loginContext =
+                    kerberosUtil.getLoginContextFromUsernamePassword( authenticationProvider.getPrincipal(),
+                        authenticationProvider.getPassword() );
+              }
+            } catch ( LoginException e ) {
+              throw new AuthenticationConsumptionException( e );
+            }
+            try {
+              loginContext.login();
+              return Subject.doAs( loginContext.getSubject(), new PrivilegedExceptionAction<TicketAndKey>() {
+
+                @Override
+                public TicketAndKey run() throws Exception {
+                  return new MapRLoginHttpsClient().getMapRCredentialsViaKerberos( 1209600000L );
+                }
+              } );
+            } catch ( LoginException e ) {
+              throw new AuthenticationConsumptionException( e );
+            } catch ( PrivilegedActionException e ) {
+              throw new AuthenticationConsumptionException( e );
+            }
+          }
+        };
+    return new UserSpoofingHadoopAuthorizationService( userSpoofingHadoopAuthorizationCallable );
   }
 }

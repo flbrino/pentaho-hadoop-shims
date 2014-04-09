@@ -23,28 +23,11 @@
 package org.pentaho.hadoop.shim.mapr31;
 
 import java.util.List;
-import java.util.Properties;
 
-import org.pentaho.di.core.auth.AuthenticationConsumerPluginType;
-import org.pentaho.di.core.auth.AuthenticationPersistenceManager;
-import org.pentaho.di.core.auth.core.AuthenticationConsumptionException;
-import org.pentaho.di.core.auth.core.AuthenticationManager;
-import org.pentaho.di.core.auth.core.AuthenticationPerformer;
-import org.pentaho.di.core.auth.core.AuthenticationConsumptionException;
-import org.pentaho.di.core.lifecycle.LifecycleException;
 import org.pentaho.hadoop.shim.HadoopConfiguration;
 import org.pentaho.hadoop.shim.HadoopConfigurationFileSystemManager;
 import org.pentaho.hadoop.shim.api.Configuration;
 import org.pentaho.hadoop.shim.common.CommonHadoopShim;
-import org.pentaho.hadoop.shim.mapr31.authentication.MapRSuperUserKerberosConsumer.MapRSuperUserKerberosConsumerType;
-import org.pentaho.hadoop.shim.mapr31.authentication.MapRSuperUserNoAuthConsumer.MapRSuperUserNoAuthConsumerType;
-import org.pentaho.hdfs.vfs.MapRFileProvider;
-import org.pentaho.hadoop.shim.mapr31.authentication.PropertyAuthenticationProviderParser;
-import org.pentaho.hadoop.shim.mapr31.authentication.MapRSuperUserKerberosConsumer.MapRSuperUserKerberosConsumerType;
-import org.pentaho.hadoop.shim.mapr31.authentication.MapRSuperUserNoAuthConsumer.MapRSuperUserNoAuthConsumerType;
-import org.pentaho.hdfs.vfs.MapRFileProvider;
-
-import com.mapr.fs.proto.Security.TicketAndKey;
 import org.pentaho.hdfs.vfs.MapRFileProvider;
 
 public class HadoopShim extends CommonHadoopShim {
@@ -53,7 +36,6 @@ public class HadoopShim extends CommonHadoopShim {
   protected static final String DEFAULT_CLUSTER = "/";
   protected static final String MFS_SCHEME = "maprfs://";
   protected static final String[] EMPTY_CONNECTION_INFO = new String[2];
-  private Properties properties;
 
   static {
     JDBC_DRIVER_MAP.put("hive2",org.apache.hive.jdbc.HiveDriver.class); 
@@ -110,30 +92,6 @@ public class HadoopShim extends CommonHadoopShim {
   @Override
   public void onLoad( HadoopConfiguration config, HadoopConfigurationFileSystemManager fsm ) throws Exception {
     fsm.addProvider( config, MapRFileProvider.SCHEME, config.getIdentifier(), new MapRFileProvider() );
-    AuthenticationConsumerPluginType.getInstance().registerPlugin( (URLClassLoader) getClass().getClassLoader(),
-        MapRSuperUserKerberosConsumerType.class );
-    AuthenticationConsumerPluginType.getInstance().registerPlugin( (URLClassLoader) getClass().getClassLoader(),
-        MapRSuperUserNoAuthConsumerType.class );
-    properties = config.getConfigProperties();
-    if ( config.getConfigProperties().containsKey( SUPER_USER ) ) {
-      AuthenticationManager manager = AuthenticationPersistenceManager.getAuthenticationManager();
-      new PropertyAuthenticationProviderParser( config.getConfigProperties(), manager ).process( PROVIDER_LIST );
-      AuthenticationPerformer<TicketAndKey, Void> performer =
-          manager.getAuthenticationPerformer( TicketAndKey.class, Void.class, config
-              .getConfigProperties().getProperty( SUPER_USER ) );
-      if ( performer == null ) {
-        throw new LifecycleException( "Unable to find relevant provider for MapR super user (id of "
-            + config.getConfigProperties().getProperty( SUPER_USER ) + ")", true );
-      } else {
-        try {
-          performer.perform( null );
-        } catch ( AuthenticationConsumptionException authenticationConsumptionException ) {
-          throw new LifecycleException( "Unable to get MapR ticket for provider "
-              + config.getConfigProperties().getProperty( SUPER_USER ), authenticationConsumptionException.getCause(),
-              true );
-        }
-      }
-    }
     setDistributedCacheUtil( new MapR3DistributedCacheUtilImpl( config ) );
   }
 }
