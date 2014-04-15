@@ -14,4 +14,6 @@ public interface UserSpoofingHadoopAuthorizationCallable {
   public LoginContext getLoginContext();
   
   public Properties getConfigProperties();
+
+  public LoginContext createLoginContext() throws AuthenticationConsumptionException;
 }
