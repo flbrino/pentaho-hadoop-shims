@@ -1,13 +1,7 @@
 package org.pentaho.hadoop.shim.mapr31.authorization;
 
 import java.io.IOException;
-import java.security.Principal;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.Driver;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,14 +9,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
-import javax.security.auth.login.LoginContext;
-
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.hadoop.security.HadoopKerberosName;
-import org.apache.hadoop.security.User;
 import org.pentaho.di.core.auth.AuthenticationPersistenceManager;
 import org.pentaho.di.core.auth.core.AuthenticationConsumptionException;
 import org.pentaho.di.core.auth.core.AuthenticationFactoryException;
@@ -35,6 +26,7 @@ import org.pentaho.hadoop.shim.api.Configuration;
 import org.pentaho.hadoop.shim.api.DistributedCacheUtil;
 import org.pentaho.hadoop.shim.common.ShimUtils;
 import org.pentaho.hadoop.shim.mapr31.MapR3DistributedCacheUtilImpl;
+import org.pentaho.hadoop.shim.mapr31.authentication.HiveKerberosConsumer;
 import org.pentaho.hadoop.shim.mapr31.authentication.PropertyAuthenticationProviderParser;
 import org.pentaho.hadoop.shim.mapr31.delegatingShims.DelegatingHadoopShim;
 import org.pentaho.hadoop.shim.spi.HadoopShim;
@@ -59,6 +51,7 @@ public class UserSpoofingHadoopAuthorizationService extends NoOpHadoopAuthorizat
   protected static final String SQOOP_PROXY_USER = "pentaho.sqoop.proxy.user";
   protected static final String OOZIE_PROXY_USER = "pentaho.oozie.proxy.user";
   protected static final String HBASE_PROVIDER = "pentaho.hbase.auth.provider";
+  protected static final String HIVE_PROVIDER = "pentaho.hive.auth.provider";
   protected static final String PMR_STAGE_PROXY_USER = "pentaho.pmr.staging.proxy.user";
 
   private final Map<Class<?>, String> userMap;
@@ -83,7 +76,6 @@ public class UserSpoofingHadoopAuthorizationService extends NoOpHadoopAuthorizat
     delegateMap = new HashMap<Class<?>, Set<Class<?>>>();
     Set<Class<?>> oozieSet = new HashSet<Class<?>>( Arrays.<Class<?>> asList( OozieClient.class, OozieJob.class ) );
     delegateMap.put( OozieClientFactory.class, oozieSet );
-    final LoginContext hiveLoginContext = userSpoofingHadoopAuthorizationCallable.createLoginContext();
     hadoopShim = UserSpoofingMaprInvocationHandler.forObject( new org.pentaho.hadoop.shim.mapr31.HadoopShim() {
 
       public String getFileSystemGetUser( Configuration conf ) {
@@ -137,19 +129,37 @@ public class UserSpoofingHadoopAuthorizationService extends NoOpHadoopAuthorizat
       
       @Override
       public Driver getJdbcDriver( String driverType ) {
-        return KerberosInvocationHandler.forObject( hiveLoginContext,
-            super.getJdbcDriver(driverType),
-            new HashSet<Class<?>>( Arrays.<Class<?>> asList( Driver.class, Connection.class, DatabaseMetaData.class, ResultSetMetaData.class, ResultSet.class ) ) );
+        Driver delegate = super.getJdbcDriver( driverType );
+        AuthenticationManager manager = AuthenticationPersistenceManager.getAuthenticationManager();
+        try {
+          manager.registerConsumerClass( HiveKerberosConsumer.class );
+        } catch ( AuthenticationFactoryException e ) {
+          throw new RuntimeException( e );
+        }
+        new PropertyAuthenticationProviderParser( userSpoofingHadoopAuthorizationCallable.getConfigProperties(), manager )
+            .process( DelegatingHadoopShim.PROVIDER_LIST );
+        AuthenticationPerformer<Driver, Driver> performer =
+            manager.getAuthenticationPerformer( Driver.class, Driver.class, hadoopShim.createConfiguration().get(
+                HBASE_PROVIDER ) );
+        if ( performer != null ) {
+          try {
+            return performer.perform( delegate );
+          } catch ( AuthenticationConsumptionException e ) {
+            throw new RuntimeException( e );
+          }
+        } else {
+          throw new RuntimeException( "Unable to find authentication performer for id "
+              + hadoopShim.createConfiguration().get( HIVE_PROVIDER ) + " (specified as " + HIVE_PROVIDER
+              + " in core-site.xml)", null );
+        }
       }
-      
     }, new HashSet<Class<?>>( Arrays.<Class<?>> asList( DistributedCacheUtil.class ) ) );
+    
     try {
       HadoopKerberosName.setConfiguration( ShimUtils.asConfiguration( hadoopShim.createConfiguration() ) );
     } catch ( IOException e1 ) {
       throw new AuthenticationConsumptionException( e1 );
     }
-    Principal kerbPrincipal = new ArrayList<Principal>( hiveLoginContext.getSubject().getPrincipals() ).get( 0 );
-    hiveLoginContext.getSubject().getPrincipals().add( new User( kerbPrincipal.getName() ) );
     oozieClientFactory =
         KerberosInvocationHandler.forObject( userSpoofingHadoopAuthorizationCallable.getLoginContext(),
             new OozieClientFactoryImpl( hadoopShim.createConfiguration().get( OOZIE_PROXY_USER ) ),

@@ -1,15 +1,13 @@
 package org.pentaho.hadoop.shim.mapr31.authentication;
 
-import java.security.Principal;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.Properties;
-import java.util.ArrayList;
+
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
-import org.apache.hadoop.security.User;
-import org.pentaho.di.core.Const;
+
 import org.pentaho.di.core.auth.AuthenticationConsumerPlugin;
 import org.pentaho.di.core.auth.AuthenticationConsumerType;
 import org.pentaho.di.core.auth.KerberosAuthenticationProvider;
@@ -77,15 +75,6 @@ public class MapRSuperUserKerberosConsumer implements
         @Override
         public Properties getConfigProperties() {
           return props;
-        }
-        
-        @Override
-        public LoginContext createLoginContext() throws AuthenticationConsumptionException {
-          try {
-            return kerberosUtil.createLoginContext( authenticationProvider );
-          } catch ( LoginException e ) {
-            throw new AuthenticationConsumptionException( e );
-          }
         }
       };
     } catch ( LoginException e ) {
