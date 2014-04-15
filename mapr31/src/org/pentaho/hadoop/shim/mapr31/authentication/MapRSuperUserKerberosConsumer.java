@@ -54,7 +54,6 @@ public class MapRSuperUserKerberosConsumer implements
 
         @Override
         public TicketAndKey call() throws AuthenticationConsumptionException {
-          System.setProperty( "hadoop.login", "hadoop_default" );
           try {
             return Subject.doAs( loginContext.getSubject(), new PrivilegedExceptionAction<TicketAndKey>() {
 

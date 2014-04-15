@@ -14,7 +14,6 @@ import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 
 import org.apache.commons.lang.ClassUtils;
-import org.apache.hadoop.security.UserGroupInformation;
 
 public class KerberosInvocationHandler<T> implements InvocationHandler {
   // private static final Logger logger = Logger.getLogger( UserSpoofingKerberosInvocationHandler.class );
