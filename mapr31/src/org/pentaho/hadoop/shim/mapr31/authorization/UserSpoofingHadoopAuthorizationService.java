@@ -1,5 +1,10 @@
 package org.pentaho.hadoop.shim.mapr31.authorization;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.Driver;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -120,6 +125,14 @@ public class UserSpoofingHadoopAuthorizationService extends NoOpHadoopAuthorizat
         } );
         setDistributedCacheUtil( new MapR3DistributedCacheUtilImpl( config ) );
       }
+      
+      @Override
+      public Driver getJdbcDriver( String driverType ) {
+        return KerberosInvocationHandler.forObject( userSpoofingHadoopAuthorizationCallable.getLoginContext(),
+            super.getJdbcDriver(driverType),
+            new HashSet<Class<?>>( Arrays.<Class<?>> asList( Driver.class, Connection.class, DatabaseMetaData.class, ResultSetMetaData.class, ResultSet.class ) ) );
+      }
+      
     }, new HashSet<Class<?>>( Arrays.<Class<?>> asList( DistributedCacheUtil.class ) ) );
     oozieClientFactory =
         KerberosInvocationHandler.forObject( userSpoofingHadoopAuthorizationCallable.getLoginContext(),

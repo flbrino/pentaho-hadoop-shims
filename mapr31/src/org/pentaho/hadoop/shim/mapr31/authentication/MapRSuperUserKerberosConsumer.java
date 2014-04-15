@@ -1,13 +1,17 @@
 package org.pentaho.hadoop.shim.mapr31.authentication;
 
+import java.security.Principal;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.Properties;
+import java.util.ArrayList;
 
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
+import org.apache.hadoop.security.User;
+import org.pentaho.di.core.Const;
 import org.pentaho.di.core.auth.AuthenticationConsumerPlugin;
 import org.pentaho.di.core.auth.AuthenticationConsumerType;
 import org.pentaho.di.core.auth.KerberosAuthenticationProvider;
@@ -72,6 +76,7 @@ public class MapRSuperUserKerberosConsumer implements
           return loginContext;
         }
 
+<<<<<<< HEAD
         @Override
         public Properties getConfigProperties() {
           return props;
@@ -80,6 +85,33 @@ public class MapRSuperUserKerberosConsumer implements
     } catch ( LoginException e ) {
       throw new AuthenticationConsumptionException( e );
     }
+=======
+          private LoginContext createLoginContext() throws AuthenticationConsumptionException {
+            System.setProperty( "hadoop.login", "hadoop_default" );
+            final LoginContext loginContext;
+            try {
+              if ( Const.isEmpty( authenticationProvider.getPassword() ) ) {
+                if ( !Const.isEmpty( authenticationProvider.getKeytabLocation() ) ) {
+                  loginContext =
+                      kerberosUtil.getLoginContextFromKeytab( authenticationProvider.getPrincipal(),
+                          authenticationProvider.getKeytabLocation() );
+                } else {
+                  loginContext = kerberosUtil.getLoginContextFromKerberosCache( authenticationProvider.getPrincipal() );
+                }
+              } else {
+                loginContext =
+                    kerberosUtil.getLoginContextFromUsernamePassword( authenticationProvider.getPrincipal(),
+                        authenticationProvider.getPassword() );
+              }
+              loginContext.login();
+            } catch ( LoginException e ) {
+              throw new AuthenticationConsumptionException( e );
+            }
+            
+            return loginContext;
+          }
+        };
+>>>>>>> Added some auth code for Hive
     return new UserSpoofingHadoopAuthorizationService( userSpoofingHadoopAuthorizationCallable );
   }
 }
