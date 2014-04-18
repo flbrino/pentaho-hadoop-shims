@@ -1,1 +1,1 @@
-org.pentaho.hadoop.shim.mapr31.delegatingShims.DelegatingHBaseShim
+org.pentaho.shim.delegate.DelegatingHBaseShim

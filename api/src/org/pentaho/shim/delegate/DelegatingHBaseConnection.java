@@ -20,7 +20,7 @@
 *
 ******************************************************************************/
 
-package org.pentaho.hadoop.shim.mapr31.delegatingShims;
+package org.pentaho.shim.delegate;
 
 import java.util.List;
 import java.util.NavigableMap;
@@ -29,9 +29,9 @@ import java.util.Properties;
 import org.pentaho.di.core.variables.VariableSpace;
 import org.pentaho.hbase.shim.api.ColumnFilter;
 import org.pentaho.hbase.shim.api.HBaseValueMeta;
-import org.pentaho.hbase.shim.mapr31.wrapper.HBaseConnectionInterface;
 import org.pentaho.hbase.shim.spi.HBaseBytesUtilShim;
 import org.pentaho.hbase.shim.spi.HBaseConnection;
+import org.pentaho.hbase.shim.spi.HBaseConnectionInterface;
 
 public class DelegatingHBaseConnection extends HBaseConnection implements HBaseConnectionInterface {
   private final HBaseConnectionInterface delegate;

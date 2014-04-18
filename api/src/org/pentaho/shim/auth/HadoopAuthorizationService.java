@@ -20,33 +20,11 @@
 *
 ******************************************************************************/
 
-package org.pentaho.hbase.shim.mapr31;
+package org.pentaho.shim.auth;
 
-import org.pentaho.hadoop.shim.ShimVersion;
-import org.pentaho.hadoop.shim.api.Configuration;
-import org.pentaho.hbase.shim.spi.HBaseConnection;
-import org.pentaho.hbase.shim.spi.HBaseShim;
-import org.pentaho.hbase.shim.spi.HBaseShimInterface;
+import org.pentaho.hadoop.shim.spi.PentahoHadoopShim;
 
-/**
- * Concrete implementation of HBaseShim suitable for use with Apache HBase 0.90.x.
- * 
- * @author Mark Hall (mhall{[at]}pentaho{[dot]}com)
- */
-public class MapRHBaseShim extends HBaseShim implements HBaseShimInterface {
-
-  @Override
-  public ShimVersion getVersion() {
-    return new ShimVersion( 1, 0 );
-  }
-
-  @Override
-  public HBaseConnection getHBaseConnection() {
-    return new MapRHBaseConnection();
-  }
-
-  @Override
-  public void setInfo( Configuration configuration ) {
-    // noop
-  }
+public interface HadoopAuthorizationService {
+  
+  public <T extends PentahoHadoopShim> T getShim(Class<T> clazz);
 }

@@ -20,7 +20,7 @@
 *
 ******************************************************************************/
 
-package org.pentaho.hadoop.shim.mapr31.delegatingShims;
+package org.pentaho.shim.delegate;
 
 import java.net.URL;
 import java.util.List;
@@ -28,9 +28,9 @@ import java.util.Properties;
 
 import org.pentaho.hadoop.shim.ShimVersion;
 import org.pentaho.hadoop.shim.api.Configuration;
-import org.pentaho.hadoop.shim.mapr31.authorization.HadoopAuthorizationService;
-import org.pentaho.hadoop.shim.mapr31.authorization.HasHadoopAuthorizationService;
 import org.pentaho.hadoop.shim.spi.PigShim;
+import org.pentaho.shim.auth.HadoopAuthorizationService;
+import org.pentaho.shim.auth.HasHadoopAuthorizationService;
 
 public class DelegatingPigShim implements PigShim, HasHadoopAuthorizationService {
   private PigShim delegate;

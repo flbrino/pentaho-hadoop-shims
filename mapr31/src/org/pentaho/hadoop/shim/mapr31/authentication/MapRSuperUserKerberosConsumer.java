@@ -35,9 +35,9 @@ import org.pentaho.di.core.auth.AuthenticationConsumerType;
 import org.pentaho.di.core.auth.KerberosAuthenticationProvider;
 import org.pentaho.di.core.auth.core.AuthenticationConsumer;
 import org.pentaho.di.core.auth.core.AuthenticationConsumptionException;
-import org.pentaho.hadoop.shim.mapr31.authorization.HadoopAuthorizationService;
 import org.pentaho.hadoop.shim.mapr31.authorization.UserSpoofingHadoopAuthorizationCallable;
 import org.pentaho.hadoop.shim.mapr31.authorization.UserSpoofingHadoopAuthorizationService;
+import org.pentaho.shim.auth.HadoopAuthorizationService;
 
 import com.mapr.fs.proto.Security.TicketAndKey;
 import com.mapr.login.client.MapRLoginHttpsClient;

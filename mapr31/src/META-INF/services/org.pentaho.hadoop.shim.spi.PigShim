@@ -1,1 +1,1 @@
-org.pentaho.hadoop.shim.mapr31.delegatingShims.DelegatingPigShim
+org.pentaho.shim.delegate.DelegatingPigShim

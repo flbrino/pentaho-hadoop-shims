@@ -20,11 +20,13 @@
 *
 ******************************************************************************/
 
-package org.pentaho.hadoop.shim.mapr31.authorization;
+package org.pentaho.hbase.shim.spi;
 
+import org.pentaho.hadoop.shim.api.Configuration;
 import org.pentaho.hadoop.shim.spi.PentahoHadoopShim;
 
-public interface HadoopAuthorizationService {
+public interface HBaseShimInterface extends PentahoHadoopShim {
+  public HBaseConnection getHBaseConnection();
   
-  public <T extends PentahoHadoopShim> T getShim(Class<T> clazz);
+  public void setInfo( Configuration configuration );
 }

@@ -29,8 +29,8 @@ import org.pentaho.di.core.auth.AuthenticationConsumerType;
 import org.pentaho.di.core.auth.NoAuthenticationAuthenticationProvider;
 import org.pentaho.di.core.auth.core.AuthenticationConsumer;
 import org.pentaho.di.core.auth.core.AuthenticationConsumptionException;
-import org.pentaho.hadoop.shim.mapr31.authorization.HadoopAuthorizationService;
 import org.pentaho.hadoop.shim.mapr31.authorization.NoOpHadoopAuthorizationService;
+import org.pentaho.shim.auth.HadoopAuthorizationService;
 
 public class MapRSuperUserNoAuthConsumer implements
     AuthenticationConsumer<HadoopAuthorizationService, NoAuthenticationAuthenticationProvider> {

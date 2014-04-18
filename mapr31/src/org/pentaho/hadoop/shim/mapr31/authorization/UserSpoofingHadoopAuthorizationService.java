@@ -51,13 +51,12 @@ import org.pentaho.hadoop.shim.common.ShimUtils;
 import org.pentaho.hadoop.shim.mapr31.MapR3DistributedCacheUtilImpl;
 import org.pentaho.hadoop.shim.mapr31.authentication.HiveKerberosConsumer;
 import org.pentaho.hadoop.shim.mapr31.authentication.PropertyAuthenticationProviderParser;
-import org.pentaho.hadoop.shim.mapr31.delegatingShims.DelegatingHadoopShim;
 import org.pentaho.hadoop.shim.spi.HadoopShim;
 import org.pentaho.hadoop.shim.spi.PentahoHadoopShim;
 import org.pentaho.hadoop.shim.spi.PigShim;
 import org.pentaho.hadoop.shim.spi.SqoopShim;
 import org.pentaho.hbase.shim.mapr31.authentication.HBaseKerberosConsumer;
-import org.pentaho.hbase.shim.mapr31.wrapper.HBaseShimInterface;
+import org.pentaho.hbase.shim.spi.HBaseShimInterface;
 import org.pentaho.hdfs.vfs.HadoopFileSystem;
 import org.pentaho.hdfs.vfs.MapRFileProvider;
 import org.pentaho.hdfs.vfs.MapRFileSystem;
@@ -65,6 +64,8 @@ import org.pentaho.oozie.shim.api.OozieClient;
 import org.pentaho.oozie.shim.api.OozieClientFactory;
 import org.pentaho.oozie.shim.api.OozieJob;
 import org.pentaho.oozie.shim.mapr31.OozieClientFactoryImpl;
+import org.pentaho.shim.auth.HadoopAuthorizationService;
+import org.pentaho.shim.delegate.DelegatingHadoopShim;
 
 public class UserSpoofingHadoopAuthorizationService extends NoOpHadoopAuthorizationService implements
     HadoopAuthorizationService {
@@ -209,7 +210,7 @@ public class UserSpoofingHadoopAuthorizationService extends NoOpHadoopAuthorizat
     sqoopShim = UserSpoofingMaprInvocationHandler.forObject( new CommonSqoopShim() {
       @Override
       public int runTool( String[] args, Configuration c ) {
-        hBaseShimInterface.setInfo( ShimUtils.asConfiguration( c ) );
+        hBaseShimInterface.setInfo( c );
         return super.runTool( args, c );
       }
     }, new HashSet<Class<?>>(), hadoopShim.createConfiguration().get( SQOOP_PROXY_USER ), isRoot );

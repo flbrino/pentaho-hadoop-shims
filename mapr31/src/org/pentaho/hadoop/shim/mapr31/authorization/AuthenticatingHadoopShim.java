@@ -32,11 +32,13 @@ import org.pentaho.di.core.auth.core.AuthenticationManager;
 import org.pentaho.di.core.auth.core.AuthenticationPerformer;
 import org.pentaho.hadoop.shim.HadoopConfiguration;
 import org.pentaho.hadoop.shim.HadoopConfigurationFileSystemManager;
-import org.pentaho.hadoop.shim.mapr31.authentication.PropertyAuthenticationProviderParser;
 import org.pentaho.hadoop.shim.mapr31.authentication.MapRSuperUserKerberosConsumer.MapRSuperUserKerberosConsumerType;
 import org.pentaho.hadoop.shim.mapr31.authentication.MapRSuperUserNoAuthConsumer.MapRSuperUserNoAuthConsumerType;
-import org.pentaho.hadoop.shim.mapr31.delegatingShims.DelegatingHadoopShim;
+import org.pentaho.hadoop.shim.mapr31.authentication.PropertyAuthenticationProviderParser;
 import org.pentaho.hadoop.shim.spi.PentahoHadoopShim;
+import org.pentaho.shim.auth.HadoopAuthorizationService;
+import org.pentaho.shim.auth.HasHadoopAuthorizationService;
+import org.pentaho.shim.delegate.DelegatingHadoopShim;
 
 public class AuthenticatingHadoopShim extends DelegatingHadoopShim {
   @Override

@@ -30,8 +30,9 @@ import org.pentaho.hadoop.shim.spi.PentahoHadoopShim;
 import org.pentaho.hadoop.shim.spi.PigShim;
 import org.pentaho.hadoop.shim.spi.SnappyShim;
 import org.pentaho.hadoop.shim.spi.SqoopShim;
-import org.pentaho.hbase.shim.mapr31.wrapper.HBaseShimInterface;
+import org.pentaho.hbase.shim.spi.HBaseShimInterface;
 import org.pentaho.oozie.shim.api.OozieClientFactory;
+import org.pentaho.shim.auth.HadoopAuthorizationService;
 
 public class NoOpHadoopAuthorizationService implements HadoopAuthorizationService {
   private final Map<Class<?>, PentahoHadoopShim> shimMap;

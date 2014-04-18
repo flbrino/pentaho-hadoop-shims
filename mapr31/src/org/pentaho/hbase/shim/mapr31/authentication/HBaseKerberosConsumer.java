@@ -30,7 +30,7 @@ import org.pentaho.di.core.auth.KerberosAuthenticationProvider;
 import org.pentaho.di.core.auth.core.AuthenticationConsumer;
 import org.pentaho.di.core.auth.core.AuthenticationConsumptionException;
 import org.pentaho.hadoop.shim.mapr31.authentication.KerberosConsumerUtil;
-import org.pentaho.hbase.shim.mapr31.wrapper.HBaseShimInterface;
+import org.pentaho.hbase.shim.spi.HBaseShimInterface;
 
 public class HBaseKerberosConsumer implements
     AuthenticationConsumer<HBaseShimInterface, KerberosAuthenticationProvider> {
