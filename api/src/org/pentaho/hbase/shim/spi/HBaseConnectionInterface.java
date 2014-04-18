@@ -20,7 +20,7 @@
 *
 ******************************************************************************/
 
-package org.pentaho.hbase.shim.mapr31.wrapper;
+package org.pentaho.hbase.shim.spi;
 
 import java.util.List;
 import java.util.NavigableMap;

@@ -20,15 +20,15 @@
 *
 ******************************************************************************/
 
-package org.pentaho.hadoop.shim.mapr31.delegatingShims;
+package org.pentaho.shim.delegate;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.pentaho.hadoop.shim.ShimVersion;
-import org.pentaho.hadoop.shim.mapr31.authorization.HadoopAuthorizationService;
-import org.pentaho.hadoop.shim.mapr31.authorization.HasHadoopAuthorizationService;
 import org.pentaho.hadoop.shim.spi.SnappyShim;
+import org.pentaho.shim.auth.HadoopAuthorizationService;
+import org.pentaho.shim.auth.HasHadoopAuthorizationService;
 
 public class DelegatingSnappyShim implements SnappyShim, HasHadoopAuthorizationService {
   private SnappyShim delegate;

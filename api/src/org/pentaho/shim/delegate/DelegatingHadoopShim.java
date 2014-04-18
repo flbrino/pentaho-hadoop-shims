@@ -20,7 +20,7 @@
 *
 ******************************************************************************/
 
-package org.pentaho.hadoop.shim.mapr31.delegatingShims;
+package org.pentaho.shim.delegate;
 
 import java.io.IOException;
 import java.sql.Driver;
@@ -35,9 +35,9 @@ import org.pentaho.hadoop.shim.api.Configuration;
 import org.pentaho.hadoop.shim.api.DistributedCacheUtil;
 import org.pentaho.hadoop.shim.api.fs.FileSystem;
 import org.pentaho.hadoop.shim.api.mapred.RunningJob;
-import org.pentaho.hadoop.shim.mapr31.authorization.HadoopAuthorizationService;
-import org.pentaho.hadoop.shim.mapr31.authorization.HasHadoopAuthorizationService;
 import org.pentaho.hadoop.shim.spi.HadoopShim;
+import org.pentaho.shim.auth.HadoopAuthorizationService;
+import org.pentaho.shim.auth.HasHadoopAuthorizationService;
 
 public class DelegatingHadoopShim implements HadoopShim, HasHadoopAuthorizationService {
   public static final String SUPER_USER = "authentication.superuser.provider";

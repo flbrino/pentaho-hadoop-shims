@@ -27,7 +27,7 @@ import java.util.Properties;
 import java.util.concurrent.Callable;
 
 import org.pentaho.hbase.shim.common.CommonHBaseConnection;
-import org.pentaho.hbase.shim.mapr31.wrapper.HBaseConnectionInterface;
+import org.pentaho.hbase.shim.spi.HBaseConnectionInterface;
 
 public class MapRHBaseConnection extends CommonHBaseConnection implements HBaseConnectionInterface {
 

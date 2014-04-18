@@ -22,6 +22,7 @@
 
 package org.pentaho.hadoop.shim.common;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapred.FileInputFormat;
 import org.apache.hadoop.mapred.FileOutputFormat;
@@ -45,6 +46,10 @@ public class ConfigurationProxy extends org.apache.hadoop.mapred.JobConf impleme
   public ConfigurationProxy() {
     super();
     addResource("hdfs-site.xml");
+  }
+  
+  public ConfigurationProxy( Configuration configuration ) {
+    super( configuration );
   }
   
   /*

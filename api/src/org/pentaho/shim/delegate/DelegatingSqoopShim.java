@@ -20,14 +20,29 @@
 *
 ******************************************************************************/
 
-package org.pentaho.hbase.shim.mapr31.wrapper;
+package org.pentaho.shim.delegate;
 
-import org.apache.hadoop.conf.Configuration;
-import org.pentaho.hadoop.shim.spi.PentahoHadoopShim;
-import org.pentaho.hbase.shim.spi.HBaseConnection;
+import org.pentaho.hadoop.shim.ShimVersion;
+import org.pentaho.hadoop.shim.api.Configuration;
+import org.pentaho.hadoop.shim.spi.SqoopShim;
+import org.pentaho.shim.auth.HadoopAuthorizationService;
+import org.pentaho.shim.auth.HasHadoopAuthorizationService;
 
-public interface HBaseShimInterface extends PentahoHadoopShim {
-  public HBaseConnection getHBaseConnection();
+public class DelegatingSqoopShim implements SqoopShim, HasHadoopAuthorizationService {
+  private SqoopShim delegate;
   
-  public void setInfo( Configuration configuration );
+  @Override
+  public void setHadoopAuthorizationService( HadoopAuthorizationService hadoopAuthorizationService ) {
+    delegate = hadoopAuthorizationService.getShim( SqoopShim.class );
+  }
+
+  @Override
+  public int runTool( String[] args, Configuration c ) {
+    return delegate.runTool( args, c );
+  }
+
+  @Override
+  public ShimVersion getVersion() {
+    return delegate.getVersion();
+  }
 }

@@ -31,16 +31,18 @@ import java.util.UUID;
 
 import javax.security.auth.login.LoginContext;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.security.HadoopKerberosName;
+import org.pentaho.hadoop.shim.api.Configuration;
+import org.pentaho.hadoop.shim.common.ConfigurationProxy;
+import org.pentaho.hadoop.shim.common.ShimUtils;
 import org.pentaho.hadoop.shim.mapr31.authorization.KerberosInvocationHandler;
-import org.pentaho.hadoop.shim.mapr31.delegatingShims.DelegatingHBaseConnection;
 import org.pentaho.hbase.shim.mapr31.MapRHBaseConnection;
 import org.pentaho.hbase.shim.mapr31.MapRHBaseShim;
-import org.pentaho.hbase.shim.mapr31.wrapper.HBaseConnectionInterface;
-import org.pentaho.hbase.shim.mapr31.wrapper.HBaseShimInterface;
 import org.pentaho.hbase.shim.spi.HBaseBytesUtilShim;
 import org.pentaho.hbase.shim.spi.HBaseConnection;
+import org.pentaho.hbase.shim.spi.HBaseConnectionInterface;
+import org.pentaho.hbase.shim.spi.HBaseShimInterface;
+import org.pentaho.shim.delegate.DelegatingHBaseConnection;
 
 public class HBaseKerberosShim extends MapRHBaseShim implements HBaseShimInterface {
   public static final String PENTAHO_LOGIN_CONTEXT_UUID = "pentaho.login.context.uuid";
@@ -60,7 +62,7 @@ public class HBaseKerberosShim extends MapRHBaseShim implements HBaseShimInterfa
       @Override
       public void configureConnection( Properties connProps, List<String> logMessages ) throws Exception {
         super.configureConnection( connProps, logMessages );
-        setInfo( m_config );
+        setInfo( new ConfigurationProxy( m_config ) );
       }
     }, new HashSet<Class<?>>( Arrays.<Class<?>> asList( HBaseShimInterface.class, HBaseConnectionInterface.class,
         HBaseBytesUtilShim.class ) ) ) );
@@ -70,7 +72,7 @@ public class HBaseKerberosShim extends MapRHBaseShim implements HBaseShimInterfa
   public void setInfo( Configuration configuration ) {
     super.setInfo( configuration );
     try {
-      HadoopKerberosName.setConfiguration( configuration );
+      HadoopKerberosName.setConfiguration( ShimUtils.asConfiguration( configuration ) );
     } catch ( IOException e ) {
       throw new RuntimeException( e );
     }
