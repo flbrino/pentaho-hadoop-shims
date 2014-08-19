@@ -29,8 +29,8 @@
 
     <dependency conf="client->default" org="org.apache.hadoop" name="hadoop-common" rev="${dependency.hadoop.revision}" />
     <dependency conf="client->default" org="org.apache.hadoop" name="hadoop-hdfs" rev="${dependency.hadoop.revision}" />
-    <dependency conf="client->default" org="org.apache.hadoop" name="hadoop-mapreduce-client" rev="${dependency.hadoop.revision}" >
-      <!-- <exclude name="a.*" matcher="regexp" />
+    <!--<dependency conf="client->default" org="org.apache.hadoop" name="hadoop-mapreduce-client" rev="${dependency.hadoop.revision}" >
+      <exclude name="a.*" matcher="regexp" />
       <exclude name="commons-beanutils.*" matcher="regexp" />
       <exclude name="commons-collections" />
       <exclude name="commons-digester" />
@@ -44,8 +44,8 @@
       <exclude name="jetty.*" matcher="regexp" />
       <exclude name="js.*" matcher="regexp" />
       <exclude name="junit" />
-      <exclude name="s.*" matcher="regexp" />-->
-    </dependency>
+      <exclude name="s.*" matcher="regexp" />
+    </dependency>-->
     <dependency conf="client->default" org="org.apache.hadoop" name="hadoop-mapreduce-client-app" rev="${dependency.hadoop.revision}" />
     <dependency conf="client->default" org="org.apache.hadoop" name="hadoop-mapreduce-client-common" rev="${dependency.hadoop.revision}"/>
     <dependency conf="client->default" org="org.apache.hadoop" name="hadoop-mapreduce-client-jobclient" rev="${dependency.hadoop.revision}" />

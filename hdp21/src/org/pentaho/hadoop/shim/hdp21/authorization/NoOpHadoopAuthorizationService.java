@@ -22,6 +22,9 @@
 
 package org.pentaho.hadoop.shim.hdp21.authorization;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.pentaho.hadoop.shim.spi.HadoopShim;
 import org.pentaho.hadoop.shim.spi.PentahoHadoopShim;
 import org.pentaho.hadoop.shim.spi.PigShim;
@@ -29,10 +32,6 @@ import org.pentaho.hadoop.shim.spi.SnappyShim;
 import org.pentaho.hadoop.shim.spi.SqoopShim;
 import org.pentaho.hbase.shim.hdp21.wrapper.HBaseShimInterface;
 import org.pentaho.oozie.shim.api.OozieClientFactory;
-import org.pentaho.yarn.shim.api.KettleYarnClientFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class NoOpHadoopAuthorizationService implements HadoopAuthorizationService {
   private final Map<Class<?>, PentahoHadoopShim> shimMap;
@@ -49,12 +48,6 @@ public class NoOpHadoopAuthorizationService implements HadoopAuthorizationServic
           "org.pentaho.di.job.entries.oozie.OozieClientFactoryImpl" ).newInstance() );
     } catch ( Exception e ) {
       throw new RuntimeException( "Unable to create oozie client factory", e );
-    }
-    try {
-      shimMap.put( KettleYarnClientFactory.class, (PentahoHadoopShim) Class.forName(
-        "org.pentaho.hadoop.yarn.kettle.KettleYarnClientFactoryImpl" ).newInstance() );
-    } catch ( Exception e ) {
-      throw new RuntimeException( "Unable to create Kettle Yarn client factory", e );
     }
   }
 
